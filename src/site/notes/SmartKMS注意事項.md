@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/SmartKMS注意事項/"}
+{"dg-publish":true,"permalink":"/smart-kms/"}
 ---
 
 教育訓練說明
