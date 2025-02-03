@@ -57,7 +57,3 @@ jar檔更換 2.7.12 > mariadb-java-client-3.5.1.jar C:\Tomcat9.0\webapps\SmartKM
 1.首頁驚嘆號問題 修改my.ini，型態改成utf8 [mysqld] lower_case_table_names=1 (大小寫區別，1為false 2為true) character-set-server=utf8 [client] default-character-set=utf8 資料表dashboard 1,-1,1,home,null 儲存完修改成 1,1,1,首頁,null 語法參考 insert into Dashboard(companyId, isPublic, name, ownerId) value (1, 1, '首頁', null);
 
 2.專家-格式設定驚嘆號問題 資料表formtype 1,1,expert 語法參考 insert into FormType (id, companyId, systemKey) value (1, 1, 'expert');
-
-This content is available in Anytype.
-
-Follow [link](https://anytype.io) to ask a permission to get the content
