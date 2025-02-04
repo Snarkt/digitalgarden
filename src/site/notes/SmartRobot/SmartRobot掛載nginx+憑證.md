@@ -48,5 +48,4 @@ server {
 `openssl pkcs12 -in mykeystore.p12 -nocerts -nodes -out mykey.key`   
    
 ![image_9.png](/img/user/img/image_9.png)    
-   
-[TLS/SSL憑證(Certificate)指南-常用指令\|製作CSR](tls-sslping-zheng-certificate-zhi-nan-chang-yo.md)    
+  

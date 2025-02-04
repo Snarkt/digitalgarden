@@ -9,7 +9,7 @@
 安裝VMware Workstation 17 (需要註冊，照填台灣地址即可)   
 跟繁體包 (預設有簡中)
 **[VMware Workstation Pro 17 專業虛擬機軟體的繁體中文化](https://yourui0604.blogspot.com/2024/09/vmware-workstation-tw-locale-change.html)**   
-"C:\Program Files (x86)\VMware\VMware Workstation\vmware.exe" —locale zh\_TW   
+"C:\Program Files (x86)\VMware\VMware Workstation\vmware.exe"<mark style="background-color: #fff88f; color: black"> </mark>—locale zh\_TW   
 ![image_s.png](/img/user/img/image_s.png)
    
 安裝CentOS最新版本
@@ -21,13 +21,13 @@ C:\Program Files (x86)\VMware\VMware Workstation\.iso
 ![image_7.png](/img/user/img/image_7.png)    
 [CentOS 7.0 不完全安裝手冊 - Step 8 設定「軟體選擇」 \| IT 技術家](https://blog.itist.tw/2014/08/centos7-install08.html)   
 選Server或是Server with GUI   
-設置root 勾選允許ssh登入   
+設置root 勾選<span style="color: red">允許ssh登入</span>   
 用putty ssh 22port連線   
    
 [Putty — 登陸後設定標題列顯示IP](https://topic.alibabacloud.com/tc/a/putty-set-the-title-bar-to-display-ip-addresses-after-login_8_8_32075606.html#:~:text=%E6%8A%8A%E4%B8%8B%E9%9D%A2%E7%9A%84%E5%B9%BE%E8%A1%8C%E6%8C%87%E4%BB%A4%E7%A2%BC%E8%BF%BD%E5%8A%A0%E5%88%B0%20~/.bashrc%20(%E5%B0%8D%E6%87%89%20root%20%E4%BD%BF%E7%94%A8%E8%80%85%EF%BC%8C%E4%B9%9F%E5%B0%B1%E6%98%AF%20/root/.bashrc%20%E6%AA%94%E6%A1%88)%E8%87%AA%E5%8B%95%E6%8C%87%E4%BB%A4%E7%A2%BC%E7%9A%84%E6%9C%80%E5%BE%8C%E3%80%82%20%23,non-Linux%20tty%20login%20by%20ssh.%20%E9%87%8D%E6%96%B0%E7%99%BB%E9%99%B8%E8%A9%B2%E4%BC%BA%E6%9C%8D%E5%99%A8%20(%E9%82%84%E6%98%AF%E7%94%A8%E4%B9%8B%E5%89%8D%E7%9A%84%E9%82%A3%E5%80%8B%E4%BD%BF%E7%94%A8%E8%80%85%E7%99%BB%E9%99%B8)%EF%BC%8C%E4%BD%A0%E6%9C%83%E7%99%BC%E7%8F%BE%E5%B7%A6%E4%B8%8A%E6%96%B9%E5%8F%88%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E4%BC%BA%E6%9C%8D%E5%99%A8%E7%9A%84%20IP%E4%BA%86%E3%80%82)
    
 `vim  ~/.bashrc`   
-```
+```jsx
 # Auto add env parameter $PROMPT_COMMAND when use non-Linux tty login by ssh.
 if [ "$SSH_CONNECTION" != '' -a "$TERM" != 'linux' ]; then
 declare -a HOSTIP
@@ -55,7 +55,7 @@ winscp上傳檔案
 `tar -xzvf openlogic-openjdk-jre-17.0.13+11-linux-x64.tar.gz`   
 `mv openlogic-openjdk-jre-17.0.13+11-linux-x64 jdk17/jre`   
    
-關閉防火牆   
+關閉防火牆 disable<span style="color: red">d</span>
 `vi /etc/sysconfig/selinux`   
 `SELINUX=disabled`   
 `systemctl disable firewalld.service`   
@@ -101,16 +101,16 @@ MariaDB為了提高安全性，默認只監聽127.0.0.1的3306 port 並禁止TCP
 ![image_d.png](/img/user/img/image_d.png)
 [為 MariaDB 配置遠端存取權限](https://blog.csdn.net/lanuage/article/details/78846766)   
 %代表所有IP，password表示將用這個密碼登入root用戶   
-`\*.\*` anytype會隱藏掉，記得別漏掉   
-`GRANT ALL PRIVILEGES ON \*.\* TO 'root'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
+`*.*` 記得別漏掉   
+`GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
    
 指定IP連線   
 AP1   
-`GRANT ALL PRIVILEGES ON \*.\* TO 'root'@'192.168.182.129' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
+`GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.182.129' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
 AP2   
-`GRANT ALL PRIVILEGES ON \*.\* TO 'root'@'192.168.182.130' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
+`GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.182.130' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
 本機   
-`GRANT ALL PRIVILEGES ON \*.\* TO 'root'@'192.168.182.1' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
+`GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.182.1' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
    
 刪除使用者   
 `DROP USER'root'@'192.168.182.1';`   
@@ -128,7 +128,7 @@ cp hibernate.cfg.xml.sample hibernate.cfg.xml
 mysql的設定註解掉
 反註解mariadb的設定   
 紅字設定DB的IP與密碼   
-初次執行時需要將update更改成 create   
+初次執行時需要將update更改成 <span style="color: red">create</span>   
 (設定完執行SmartRobot時vm會變很卡，網頁加載也同樣變超卡)   
 ```
     <!-- MariaDB setting
@@ -156,7 +156,7 @@ mysql的設定註解掉
 從kb換算成mb   
 1777408/1024=1735.75   
 設定佔用90%   
-1735.75\*90%=1562.175 MB   
+1735.75*90%=1562.175 MB   
 -Xmx1562M   
 ![image_1l.png](/img/user/img/image_1l.png)
 此圖為 jStartup.bat的設定，tStartup.sh請參考 加入CATALINA\_PATH   
@@ -238,7 +238,7 @@ DB\_TYPE根據環境設置/MYSQL/MSSQL
 SRBT\_HOME=/SRM/SmartRobot/   
 JAVA加入環境變數即可   
 JAVA=$JAVA\_HOME/bin/java   
-```
+```jsx
 加入JAVA_PATH
 vim ~/.bashrc
 
@@ -249,14 +249,12 @@ export PATH=$JAVA_HOME/bin:$PATH
 source ~/.bashrc
 
 java -version
-
-
 ```
-![image.png](imgae_3.png)    
+![image_3.png](/img/user/img/image_3.png)    
    
 修改webapps\_dir路徑 (根據自身搭建環境修改)   
-`if [ -z "${WEBAPPS\_DIR+xxx}" ]; then
-export WEBAPPS\_DIR=$SRBT\_HOME/tomcat10/webapps`
+if [ -z "${WEBAPPS\_DIR+xxx}" ]; then
+export WEBAPPS\_DIR=$SRBT\_HOME/<span style="color: red">tomcat10</span>/webapps`
    
    
 最後一行修改sh的路徑   
@@ -272,7 +270,7 @@ CATALINA\_PID=catalinaPid
 執行此檔案如果pid沒有刪除   
 `kill -9 [PID]`   
 紅字 -Xmx1562M參考 記憶體設定   
-```
+```jsx
 加入CATALINA_PATH
 vim ~/.bashrc
 
@@ -281,8 +279,6 @@ export CATALINA_BASE=/SRM/SmartRobot/tomcat10
 export CATALINA_OPTS="-Xms512M -Xmx1562M"
 
 source ~/.bashrc
-
-
 ```
    
 3.`vim ./bin/tViewLog.sh`   
@@ -301,13 +297,11 @@ cp application.properties.sample application.properties
 修改tomcat port號   
 [Tomcat端口配置（详细）\_tomcat修改端口-CSDN博客](https://blog.csdn.net/weixin_69553582/article/details/124893517)   
 `vim /SRM/SmartRobot/tomcat10/conf/server.xml`   
-```
+```jsx
 <Connector port="8023" protocol="HTTP/1.1"
            URIEncoding="UTF-8"
            connectionTimeout="20000"
            redirectPort="8443"/>
-
-
 ```
 砍掉先前tomcat的port 8080   
 `lsof -i :8080`   
@@ -325,7 +319,7 @@ cp application.properties.sample application.properties
    
 全部步驟順利的話~成功啟動   
 [http://192.168.182.129:8023/wise/wiseadm/login.jsp](http://192.168.182.129:8023/wise/wiseadm/login.jsp)   
-[http://192.168.182.129:8023/wise/wiseadm/login.jsp](http://192.168.182.129:8023/wise/wiseadm/login.jsp) [http://192.168.182.129:8023/wise/wiseadm](http://192.168.182.129:8023/wise/wiseadm)   
+[http://192.168.182.129:8023/wise/wiseadm](http://192.168.182.129:8023/wise/wiseadm)   
 ![image_q.png](/img/user/img/image_q.png)    
 登入帳號密碼，驚嘆號記得打   
 admin   
@@ -378,6 +372,5 @@ DefaultLocale: zh\_TW
 設定Master / Slave (2 AP) 成功畫面如下   
 ![image_t.png](/img/user/img/image_t.png)    
 ![image_r.png](/img/user/img/image_r.png)    
-[安裝Wine在Linux執行.bat檔案](an-zhuang-winezai-linuxzhi-xing-batdang-an.md)    
-[SmartRobot掛載nginx+憑證](SmartRobot掛載nginx+憑證.md)    
+ 
    
