@@ -31,9 +31,15 @@ Slugify Note URL的選項不能取消勾選，不然會連笑臉都沒辦法出�
 ![Pasted image 20250204135747.png](/img/user/img/Pasted%20image%2020250204135747.png)
 
 最後在需要推的筆記按Ctrl+P 輸入dg
-選擇快速建立，屬性會多出 dg-publish v
+選擇快速建立或是先添加標籤，屬性會多出 dg-publish v
 ![Pasted image 20250204142019.png](/img/user/img/Pasted%20image%2020250204142019.png)
-![Pasted image 20250204141817.png](/img/user/img/Pasted%20image%2020250204141817.png)
+
+到首頁添加連結
+![Pasted image 20250204142524.png](/img/user/img/Pasted%20image%2020250204142524.png)
+
+同步到Netlify
+![Pasted image 20250204142707.png](/img/user/img/Pasted%20image%2020250204142707.png)
+
 
 好用插件分享
 1.Linter
