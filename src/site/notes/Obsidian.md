@@ -39,7 +39,10 @@ Slugify Note URL的選項不能取消勾選，不然會連笑臉都沒辦法出�
 
 同步到Netlify
 ![Pasted image 20250204142707.png](/img/user/img/Pasted%20image%2020250204142707.png)
+![Pasted image 20250204142948.png](/img/user/img/Pasted%20image%2020250204142948.png)
 
+最後畫面如下
+![Pasted image 20250204143108.png](/img/user/img/Pasted%20image%2020250204143108.png)
 
 好用插件分享
 1.Linter
