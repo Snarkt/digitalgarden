@@ -2,7 +2,8 @@
 {"dg-publish":true,"permalink":"/skms/skms/"}
 ---
 
-### **1. 執行下列命令產生Keystore file**
+
+###### 1. 執行下列命令產生Keystore file
 
 [ Windows ]
 

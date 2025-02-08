@@ -40,7 +40,7 @@ server {
 `keytool -importkeystore -srckeystore C:\key\mykeystore.jks -destkeystore C:\key\mykeystore.p12 -srcalias skmstest`   
 ![image_1z.png](/img/user/img/image_1z.png)
    
-[p12证书转pem、cert、key\_p12转pem-CSDN博客](https://blog.csdn.net/weixin_45191791/article/details/136226823)   
+[p12证书转pem、cert、key_p12转pem-CSDN博客](https://blog.csdn.net/weixin_45191791/article/details/136226823)   
 再來用openssl將p12拆成key與crt   
 轉crt   
 `openssl pkcs12 -in mykeystore.p12 -nokeys -out mycrt.crt`   
