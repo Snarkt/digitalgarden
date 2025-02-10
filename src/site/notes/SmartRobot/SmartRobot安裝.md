@@ -27,7 +27,7 @@ C:\Program Files (x86)\VMware\VMware Workstation\.iso
 [Putty — 登陸後設定標題列顯示IP](https://topic.alibabacloud.com/tc/a/putty-set-the-title-bar-to-display-ip-addresses-after-login_8_8_32075606.html#:~:text=%E6%8A%8A%E4%B8%8B%E9%9D%A2%E7%9A%84%E5%B9%BE%E8%A1%8C%E6%8C%87%E4%BB%A4%E7%A2%BC%E8%BF%BD%E5%8A%A0%E5%88%B0%20~/.bashrc%20(%E5%B0%8D%E6%87%89%20root%20%E4%BD%BF%E7%94%A8%E8%80%85%EF%BC%8C%E4%B9%9F%E5%B0%B1%E6%98%AF%20/root/.bashrc%20%E6%AA%94%E6%A1%88)%E8%87%AA%E5%8B%95%E6%8C%87%E4%BB%A4%E7%A2%BC%E7%9A%84%E6%9C%80%E5%BE%8C%E3%80%82%20%23,non-Linux%20tty%20login%20by%20ssh.%20%E9%87%8D%E6%96%B0%E7%99%BB%E9%99%B8%E8%A9%B2%E4%BC%BA%E6%9C%8D%E5%99%A8%20(%E9%82%84%E6%98%AF%E7%94%A8%E4%B9%8B%E5%89%8D%E7%9A%84%E9%82%A3%E5%80%8B%E4%BD%BF%E7%94%A8%E8%80%85%E7%99%BB%E9%99%B8)%EF%BC%8C%E4%BD%A0%E6%9C%83%E7%99%BC%E7%8F%BE%E5%B7%A6%E4%B8%8A%E6%96%B9%E5%8F%88%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E4%BC%BA%E6%9C%8D%E5%99%A8%E7%9A%84%20IP%E4%BA%86%E3%80%82)
 
 `vim  ~/.bashrc`   
-```jsx
+```js
 # Auto add env parameter $PROMPT_COMMAND when use non-Linux tty login by ssh.
 if [ "$SSH_CONNECTION" != '' -a "$TERM" != 'linux' ]; then
 declare -a HOSTIP
@@ -120,9 +120,9 @@ MariaDB為了提高安全性，默認只監聽127.0.0.1的3306 port 並禁止TCP
    
 指定IP連線   
 AP1   
-`GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.182.138' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
+`GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.182.137' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
 AP2   
-`GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.182.130' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
+`GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.182.138' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
 本機   
 `GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.182.1' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
    
@@ -140,7 +140,7 @@ exit
 修改DB設定 (AP1與AP2都要修改連線到指定DB)   
 `vim /SRM/SmartRobot/kernel/etc/hibernate.cfg.xml`   
 
-沒有檔案的話先cp一個   
+沒有檔案的話先cp一個
 cp hibernate.cfg.xml.sample hibernate.cfg.xml   
 
 註解掉 MySql setting
@@ -153,7 +153,7 @@ cp hibernate.cfg.xml.sample hibernate.cfg.xml
     -->
     <property name="dialect">org.hibernate.dialect.MariaDBDialect</property>
     <property name="connection.driver_class">org.mariadb.jdbc.Driver</property>
-    <property name="connection.url">jdbc:mariadb://192.168.182.138:3306/WiSe_Robot?autoCommit=true&amp;autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8</property>
+    <property name="connection.url">jdbc:mariadb://192.168.182.137:3306/WiSe_Robot?autoCommit=true&amp;autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8</property>
     <property name="connection.username">root</property>
     <property name="connection.password">password</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
@@ -195,7 +195,7 @@ cp hibernate.cfg.xml.sample hibernate.cfg.xml
 	<tcp-ip enabled="true">
 		刪除 <interface>127.0.0.1</interface>
 		<member-list>
-		<members>192.168.182.138,127.0.0.1</members>
+		<members>192.168.182.137,127.0.0.1</members>
 	    </member-list>  
     
 ```
@@ -269,25 +269,26 @@ DB_TYPE根據環境設置/MYSQL/MSSQL
 SRBT_HOME=/SRM/SmartRobot/ 
 
 方法一 將JAVA跟CATALINA都加進sh裡面
-```jsx
+<span style="color: red">export裡面請不要換行，會影響到轉真人</span>
+```js
 #!/bin/bash
 export SRBT_HOME=/SRM/SmartRobot/
 export JAVA=$JAVA_HOME/bin/java
-
-#JAVA跟CATALINA
 export JAVA_HOME=/SRM/SmartRobot/openjdk
 export JRE_HOME=$JAVA_HOME/jre
 export PATH=$JAVA_HOME/bin:$PATH
 export CATALINA_HOME=/SRM/SmartRobot/tomcat9
 export CATALINA_BASE=/SRM/SmartRobot/tomcat9
-export CATALIAN_PID=catalinaPid
+export CATALIAN_PID=/SRM/SmartRobot/tomcat9/bin/catalina.pid
 export CATALINA_OPTS="-Xms512M -Xmx1562M"
+export JAVA_OPTS="${JAVA_OPTS} -Xmx1562M -Xms512M -XX:MetaspaceSize=256M 
+-Djava.util.logging.config.file=${CATALINA_HOME}/conf/logging.properties"
 ```
 
 方法二 JAVA加入環境變數即可 (可查看java -version) 
 <span style="color: red">不推薦</span> 如果後續有第二的tomcat要再改回sh
 JAVA=$JAVA_HOME/bin/java   
-```jsx
+```js
 加入JAVA_PATH
 vim ~/.bashrc
 
@@ -322,7 +323,7 @@ CATALINA_PID=catalinaPid
 `kill -9 [PID]`  
 
 -Xmx1562M參考 記憶體設定   
-```jsx
+```js
 加入CATALINA_PATH
 vim ~/.bashrc
 
@@ -349,7 +350,7 @@ cp application.properties.sample application.properties
 修改tomcat port號   
 [Tomcat端口配置详细_tomcat修改端口-CSDN博客](https://blog.csdn.net/weixin_69553582/article/details/124893517)   
 `vim /SRM/SmartRobot/tomcat9/conf/server.xml`   
-```jsx
+```js
 <Connector port="8081" protocol="HTTP/1.1"
            URIEncoding="UTF-8"
            connectionTimeout="20000"
@@ -368,13 +369,13 @@ cp application.properties.sample application.properties
 `./bin/tStartup.sh`   
 ![image_1e.png](/img/user/img/image_1e.png)    
 查看tomcat log服務是否正常   
-`less /SRM/SmartRobot/tomcat9/logs/catalina.out`   
+`less /SRM/SmartRobot/tomcat9/logs/catalina.out`
 ![image_2.png](/img/user/img/image_2.png)    
 ![image_f.png](/img/user/img/image_f.png)    
    
 全部步驟順利的話~成功啟動   
-[http://192.168.182.138:8081/wise/wiseadm/login.jsp](http://192.168.182.138:8081/wise/wiseadm/login.jsp)   
-[http://192.168.182.138:8081/wise/wiseadm](http://192.168.182.138:8081/wise/wiseadm)   
+[http://192.168.182.137:8081/wise/wiseadm/login.jsp](http://192.168.182.137:8081/wise/wiseadm/login.jsp)   
+[http://192.168.182.137:8081/wise/wiseadm](http://192.168.182.137:8081/wise/wiseadm)   
 ![image_q.png](/img/user/img/image_q.png)    
 
 vim /SRM/SmartRobot/kernel/etc/hibernate.cfg.xml
@@ -384,13 +385,13 @@ vim /SRM/SmartRobot/kernel/etc/hibernate.cfg.xml
 admin   
 intumit!!   
 ![image_k.png](/img/user/img/image_k.png)    
-依照對應的192.168.182.138:8081 來源core建立公司   
+依照對應的192.168.182.137:8081 來源core建立公司   
 ![image_k.png](/img/user/img/image_k.png)    
 ![image_j.png](/img/user/img/image_j.png)
 192.168.182.130:8080 預設會有core0， ~~怕跟129搞混先刪除了~~   
 錯誤示範應該保留core0，後續會需要索引同步   
 最後是使用core8，兩邊都不要亂刪除!   
-![image_y.png](/img/user/img/image_y.png)    
+![image_y.png](/img/user/img/image_y.png)
 公司名稱: test   
 CoreName: core0   
 索引使用core0不需要帶其他參數   
@@ -412,7 +413,7 @@ DefaultLocale: zh_TW
 代號: web   
 ![image_5.png](/img/user/img/image_5.png)    
 成功開啟robot內建的網頁   
-[http://192.168.182.138:8081/wise/webchat/default/?t=oC56ls9rDQCvE6pSN%2B9i0w%3D%3D](http://192.168.182.138:8081/wise/webchat/default/?t=oC56ls9rDQCvE6pSN+9i0w==)   
+[http://192.168.182.137:8081/wise/webchat/default/?t=oC56ls9rDQCvE6pSN%2B9i0w%3D%3D](http://192.168.182.137:8081/wise/webchat/default/?t=oC56ls9rDQCvE6pSN+9i0w==)   
 ![image_h.png](/img/user/img/image_h.png)    
 開啟一般問答，先點擊變身   
 ![image_x.png](/img/user/img/image_x.png)
