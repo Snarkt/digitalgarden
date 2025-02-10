@@ -272,16 +272,23 @@ SRBT_HOME=/SRM/SmartRobot/
 <span style="color: red">export裡面請不要換行，會影響到轉真人</span>
 ```js
 #!/bin/bash
-export SRBT_HOME=/SRM/SmartRobot/
-export JAVA=$JAVA_HOME/bin/java
+export SRBT_HOME=/SRM/SmartRobot
 export JAVA_HOME=/SRM/SmartRobot/openjdk
+export JAVA=$JAVA_HOME/bin/java
 export JRE_HOME=$JAVA_HOME/jre
 export PATH=$JAVA_HOME/bin:$PATH
 export CATALINA_HOME=/SRM/SmartRobot/tomcat9
-export CATALINA_BASE=/SRM/SmartRobot/tomcat9
-export CATALIAN_PID=/SRM/SmartRobot/tomcat9/bin/catalina.pid
+export CATALINA_PID=/SRM/SmartRobot/tomcat9/bin/catalina.pid
 export CATALINA_OPTS="-Xms512M -Xmx1562M"
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1562M -Xms512M -XX:MetaspaceSize=256M -Djava.util.logging.config.file=${CATALINA_HOME}/conf/logging.properties"
+
+#添加catalina.pid檔案
+if [ -f "${CATALINA_PID}" ]; then
+    echo "CATALINA_PID exist: [${CATALINA_PID}]"
+else
+    echo "CATALINA_PID does not exist. Creating new file"
+    touch $CATALINA_PID
+fi
 ```
 
 方法二 JAVA加入環境變數即可 (可查看java -version) 
@@ -307,12 +314,17 @@ if [ -z "${WEBAPPS_DIR+xxx}" ]; then
 export WEBAPPS_DIR=$SRBT_HOME/<span style="color: red">tomcat9</span>/webapps`
 
 最後一行修改sh的路徑   
-`/SRM/SmartRobot/tomcat9/bin/startup.sh`   
+`${CATALINA_HOME}/bin/startup.sh`
 
-2.`vim ./bin/tShutdown.sh`   
-JAVA_HOME=/SRM/SmartRobot/openjdk   
-CATALINA_HOME=/SRM/SmartRobot/tomcat9   
-CATALINA_PID=/SRM/SmartRobot/tomcat9/bin/catalina.pid
+2.`vim ./bin/tShutdown.sh`
+
+```
+#!/bin/bash
+export JAVA_HOME=/SRM/SmartRobot/openjdk
+export CATALINA_HOME=/SRM/SmartRobot/tomcat9
+export CATALINA_PID=/SRM/SmartRobot/tomcat9/bin/catalina.pid
+${CATALINA_HOME}/bin/shutdown.sh
+```
 
 查看tomcat的pid，或是java的pid   
 `ps aux \| grep tomcat`   
