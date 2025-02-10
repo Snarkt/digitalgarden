@@ -62,7 +62,7 @@ winscp上傳檔案
 
 解壓縮 jdk
 	1. jdk
-	`tar -xvzf openlogic-openjdk-8u442-b06-linux-x64.tar.gz`
+	`tar -xzvf openlogic-openjdk-8u442-b06-linux-x64.tar.gz`
 	`mv openlogic-openjdk-8u442-b06-linux-x64 openjdk`   
 	2. jre
 	`tar -xzvf openlogic-openjdk-jre-8u432-b06-linux-x64.tar.gz`
@@ -134,7 +134,7 @@ AP2
 `FLUSH PRIVILEGES;`   
 
 `select user,host from mysql.user;`
-exit
+`exit`
 ![image_z.png](/img/user/img/image_z.png)
    
 修改DB設定 (AP1與AP2都要修改連線到指定DB)   
@@ -156,7 +156,7 @@ cp hibernate.cfg.xml.sample hibernate.cfg.xml
     <property name="connection.url">jdbc:mariadb://192.168.182.137:3306/WiSe_Robot?autoCommit=true&amp;autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF8</property>
     <property name="connection.username">root</property>
     <property name="connection.password">password</property>
-    <property name="hibernate.hbm2ddl.auto">update</property>
+    <property name="hibernate.hbm2ddl.auto">create</property>
 ```
 
 ![image_p.png](/img/user/img/image_p.png)
@@ -281,8 +281,7 @@ export CATALINA_HOME=/SRM/SmartRobot/tomcat9
 export CATALINA_BASE=/SRM/SmartRobot/tomcat9
 export CATALIAN_PID=/SRM/SmartRobot/tomcat9/bin/catalina.pid
 export CATALINA_OPTS="-Xms512M -Xmx1562M"
-export JAVA_OPTS="${JAVA_OPTS} -Xmx1562M -Xms512M -XX:MetaspaceSize=256M 
--Djava.util.logging.config.file=${CATALINA_HOME}/conf/logging.properties"
+export JAVA_OPTS="${JAVA_OPTS} -Xmx1562M -Xms512M -XX:MetaspaceSize=256M -Djava.util.logging.config.file=${CATALINA_HOME}/conf/logging.properties"
 ```
 
 方法二 JAVA加入環境變數即可 (可查看java -version) 
@@ -313,7 +312,7 @@ export WEBAPPS_DIR=$SRBT_HOME/<span style="color: red">tomcat9</span>/webapps`
 2.`vim ./bin/tShutdown.sh`   
 JAVA_HOME=/SRM/SmartRobot/openjdk   
 CATALINA_HOME=/SRM/SmartRobot/tomcat9   
-CATALINA_PID=catalinaPid 
+CATALINA_PID=/SRM/SmartRobot/tomcat9/bin/catalina.pid
 
 查看tomcat的pid，或是java的pid   
 `ps aux \| grep tomcat`   
@@ -335,17 +334,22 @@ source ~/.bashrc
 ```
 
 3.`vim ./bin/tViewLog.sh`   
-注意檔案路徑   
-tail -f /SRM/SmartRobot/tomcat9/logs/catalina.out   
+注意檔案路徑
+直接實時查看log tail -f
+`tail -f /SRM/SmartRobot/tomcat9/logs/catalina.out`   
 
-E.複製.sample更名，並根據環境使用相對應的SQL設定 (同DB設定)   
+E.複製.sample更名，並根據環境使用相對應的SQL設定
 `cd /SRM/SmartRobot/kernel/etc`   
-cp hibernate.cfg.xml.sample hibernate.cfg.xml   
+`cp hibernate.cfg.xml.sample hibernate.cfg.xml`   
 更改 hibernate.cfg.xml   
 
 F.複製.sample更名   
 `cd /SRM/SmartRobot/kernel/etc`   
-cp application.properties.sample application.properties   
+`cp application.properties.sample application.properties`
+
+文字客服轉真人的檔案需要最新的，將先前丟在SmartRobot檔案蓋過去
+`cp /SRM/SmartRobot/application.properties /SRM/SmartRobot/kernel/etc`
+cp：是否覆蓋 '/SRM/SmartRobot/kernel/etc/application.properties'？ y
 
 修改tomcat port號   
 [Tomcat端口配置详细_tomcat修改端口-CSDN博客](https://blog.csdn.net/weixin_69553582/article/details/124893517)   
@@ -378,7 +382,8 @@ cp application.properties.sample application.properties
 [http://192.168.182.137:8081/wise/wiseadm](http://192.168.182.137:8081/wise/wiseadm)   
 ![image_q.png](/img/user/img/image_q.png)    
 
-vim /SRM/SmartRobot/kernel/etc/hibernate.cfg.xml
+初次執行完將create更改成 <span style="color: red">update</span>
+`vim /SRM/SmartRobot/kernel/etc/hibernate.cfg.xml`
 `<property name="hibernate.hbm2ddl.auto">update</property>`
 
 登入帳號密碼，驚嘆號記得打   
