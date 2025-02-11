@@ -46,7 +46,8 @@ Slugify Note URL的選項不能取消勾選，不然會連笑臉都沒辦法出�
 ![Pasted image 20250204143108.png](/img/user/img/Pasted%20image%2020250204143108.png)
 
 ##### 好用插件分享
-1.Linter
+
+###### 1.Linter
 Lint on save，用 Ctrl+S 直接套用
 ![Pasted image 20250204140051.png](/img/user/img/Pasted%20image%2020250204140051.png)
 YAML頁簽底下可以設定Timestamp
@@ -54,13 +55,66 @@ YAML頁簽底下可以設定Timestamp
 ![Pasted image 20250204140218.png](/img/user/img/Pasted%20image%2020250204140218.png)
 具體效果如下
 ![Pasted image 20250204140400.png](/img/user/img/Pasted%20image%2020250204140400.png)
-2.Style Text
+
+###### 2.Style Text
 markdown只能使用css，所以需要插件另外變紅字跟背景高亮黃
 ![Pasted image 20250204140520.png](/img/user/img/Pasted%20image%2020250204140520.png)
 
 ##### Obsidian小技巧
-修改圖片大小方式
-Pasted image 20250211124511.png 輸入要更改的png檔名
-或是網址，如果要分享到網頁又想修改大小的話
+
+###### 修改圖片大小方式
+
+輸入要更改的png檔名
+Pasted image 20250211124511.png 
 後面加上style 高跟寬，一個設定完另一個auto比較不會變形
 `<img src="Pasted image 20250211124511.png" style="width: 350px; height: auto;"/>`
+
+如果要分享到網頁又想修改大小的話，可以填入上傳到圖片空間的網址 (imgur)
+`<img src="https://i.imgur.com/0wEzHDB.png" style="width: 350px; height: auto;"/>`
+
+##### Callout功能預覽
+
+> [!note] 
+> 這是編輯
+
+> [!tip] 
+> 這是小技巧
+
+> [!important] 
+> 這是重要
+
+> [!info] 
+> 這是資訊
+
+> [!warning] 
+> 這是警告
+
+> [!danger] 
+> 這是危險
+
+> [!error] 
+> 這是錯誤
+
+> [!bug] 
+> 這是Bug
+
+> [!question] 
+> 這是問題
+
+> [!example] 
+> 這是範例
+
+> [!quote]
+> 這是引述
+
+> [!success] 
+> 這是成功
+
+> [!fail] 
+> 這是失敗
+
+> [!abstract] 
+> 這是摘要
+
+> [!todo] 
+> 這是todo

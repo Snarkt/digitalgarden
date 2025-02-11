@@ -19,9 +19,12 @@ CentOS 7 或 Stream 9
 記得 CD/DVD 設定 ISO 檔案   
 C:\Program Files (x86)\VMware\VMware Workstation\.iso   
 ![Pasted image_7.png](/img/user/img/Pasted%20image_7.png)    
-[CentOS 7.0 不完全安裝手冊 - Step 8 設定「軟體選擇」 \| IT 技術家](https://blog.itist.tw/2014/08/centos7-install08.html)   
-選Server或是Server with GUI   
-設置root 勾選<span style="color: red">允許ssh登入</span>   
+[CentOS 7.0 不完全安裝手冊 - Step 8 設定「軟體選擇」 | IT 技術家](https://blog.itist.tw/2014/08/centos7-install08.html)   
+選Server或是Server with GUI
+設置root
+
+> [!danger] 
+> 勾選 <span style="color: crimson">允許ssh登入</span>   
 用putty ssh 22port連線   
    
 [Putty — 登陸後設定標題列顯示IP](https://topic.alibabacloud.com/tc/a/putty-set-the-title-bar-to-display-ip-addresses-after-login_8_8_32075606.html#:~:text=%E6%8A%8A%E4%B8%8B%E9%9D%A2%E7%9A%84%E5%B9%BE%E8%A1%8C%E6%8C%87%E4%BB%A4%E7%A2%BC%E8%BF%BD%E5%8A%A0%E5%88%B0%20~/.bashrc%20(%E5%B0%8D%E6%87%89%20root%20%E4%BD%BF%E7%94%A8%E8%80%85%EF%BC%8C%E4%B9%9F%E5%B0%B1%E6%98%AF%20/root/.bashrc%20%E6%AA%94%E6%A1%88)%E8%87%AA%E5%8B%95%E6%8C%87%E4%BB%A4%E7%A2%BC%E7%9A%84%E6%9C%80%E5%BE%8C%E3%80%82%20%23,non-Linux%20tty%20login%20by%20ssh.%20%E9%87%8D%E6%96%B0%E7%99%BB%E9%99%B8%E8%A9%B2%E4%BC%BA%E6%9C%8D%E5%99%A8%20(%E9%82%84%E6%98%AF%E7%94%A8%E4%B9%8B%E5%89%8D%E7%9A%84%E9%82%A3%E5%80%8B%E4%BD%BF%E7%94%A8%E8%80%85%E7%99%BB%E9%99%B8)%EF%BC%8C%E4%BD%A0%E6%9C%83%E7%99%BC%E7%8F%BE%E5%B7%A6%E4%B8%8A%E6%96%B9%E5%8F%88%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E4%BC%BA%E6%9C%8D%E5%99%A8%E7%9A%84%20IP%E4%BA%86%E3%80%82)
@@ -37,9 +40,12 @@ fi
 ##
 ```
 
-關閉防火牆 disable<span style="color: red">d</span>
-`vi /etc/sysconfig/selinux`   
-`SELINUX=disabled`   
+`vi /etc/sysconfig/selinux`
+> [!warning] 
+> SELINUX=disabled
+> 關閉防火牆 disable<span style="color: crimson">d</span>
+
+`SELINUX=disabled`
 `systemctl disable firewalld.service`   
 ![Pasted image_u.png](/img/user/img/Pasted%20image_u.png)  
 重新啟動，ssh會需要重連   
@@ -72,7 +78,7 @@ winscp上傳檔案
 mv SmartRobot-7.3.0-202412tw.war tomcat9/webapps/
 unzip SmartRobot-7.3.0-202412tw.war -d wise
 rm SmartRobot-7.3.0-202412tw.war
-
+> [!tip]
 解壓縮錯的話，指定檔案以外全部刪除   
 `rm -rf !(wise.war)`
 
@@ -85,7 +91,8 @@ rm SmartRobot-7.3.0-202412tw.war
 所以密碼同: helpdesk   
 ![Pasted image_0.png](/img/user/img/Pasted%20image_0.png)    
    
-安裝MariaDB (可安裝在AP1或是另開一台機器，這邊裝在AP1)   
+##### 安裝MariaDB (可安裝在AP1或是另開一台機器，這邊裝在AP1)   
+
 `yum install mariadb-server.x86_64`   
 `systemctl start mariadb.service`   
 `systemctl enable mariadb`
@@ -103,11 +110,13 @@ show databases;
 #刪除資料庫
 drop database wise_robot
 ```
-無法透過hibernate創建結構時可能需要用DB工具重新建立   
+
+> [!tip]
+> 無法透過hibernate創建結構時可能需要用DB工具重新建立   
 
 設定DB遠端連線   
 加密密碼   
-set password=PASSWORD('<span style="color: red">password</span>');
+set password=PASSWORD('<span style="color: crimson">password</span>');
    
 MariaDB為了提高安全性，默認只監聽127.0.0.1的3306 port 並禁止TCP連線   
 `select user,host from mysql.user;`   
@@ -115,7 +124,10 @@ MariaDB為了提高安全性，默認只監聽127.0.0.1的3306 port 並禁止TCP
 ![Pasted image_d.png](/img/user/img/Pasted%20image_d.png)
 [為 MariaDB 配置遠端存取權限](https://blog.csdn.net/lanuage/article/details/78846766)   
 %代表所有IP，password表示將用這個密碼登入root用戶   
-`*.*` 記得別漏掉   
+
+> [!tip] 
+> `*.*` 記得別漏掉，markdown **是斜體   
+
 `GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;`   
    
 指定IP連線   
@@ -146,8 +158,11 @@ cp hibernate.cfg.xml.sample hibernate.cfg.xml
 註解掉 MySql setting
 反註解 MariaDB setting  
 設定DB的IP與密碼   
-初次執行時需要將update更改成 <span style="color: red">create</span>   
+
+> [!warning] 
+> 初次執行時需要將update更改成 <span style="color: crimson">create</span>   
 (設定完執行SmartRobot時vm會變很卡，網頁加載也同樣變超卡)   
+
 ```
     <!-- MariaDB setting
     -->
@@ -161,12 +176,16 @@ cp hibernate.cfg.xml.sample hibernate.cfg.xml
 
 ![Pasted image_p.png](/img/user/img/Pasted%20image_p.png)
 
-記憶體設定   
+##### 記憶體設定
+
 [jvm调优技巧 - 内存抖动 、Xms和Xmx参数为什么要设置相同的值](https://blog.csdn.net/qq_27184497/article/details/119052930)   
-- xms參數：用於設定JVM啟動時堆記憶體的初始大小（最小值）。   
-- xmx參數：用來設定JVM堆記憶體的最大大小。   
+
+> [!info]
+> - xms參數：用於設定JVM啟動時堆記憶體的初始大小（最小值）。
+> - xmx參數：用來設定JVM堆記憶體的最大大小。   
+   這兩個參數在JVM啟動時會對堆記憶體進行初始化與限制
+   直接影響Java應用的記憶體使用量。   
    
-這兩個參數在JVM啟動時會對堆記憶體進行初始化與限制，直接影響Java應用的記憶體使用量。   
 `cat /proc/meminfo`   
 查看總記憶體   
 總記憶體為1777408 KB   
@@ -177,10 +196,16 @@ cp hibernate.cfg.xml.sample hibernate.cfg.xml
 -Xmx1562M
 ![Pasted image_17.png](/img/user/img/Pasted%20image_17.png)
 
-此圖為 jStartup.bat的設定，tStartup.sh請參考 加入CATALINA_PATH
+此圖為 jStartup.bat的設定，tStartup.sh請參考下方SmartRobot安裝手順AP Server
+
+> [!info]
+> jStartup.bat為先前jetty的程式啟動bat檔
+> tStartup.sh為現在tomcat的程式啟動sh檔
+
 ![Pasted image_g.png](/img/user/img/Pasted%20image_g.png)    
    
-**設定Master / Slave (2 AP)**   
+##### 設定Master / Slave (2 AP)   
+
 有兩台AP時需要設定   
 `vim /SRM/SmartRobot/kernel/etc/hazelcast.xml`   
 錯誤退出刪除暫存   
@@ -206,11 +231,12 @@ AP Slave
 **設定索引同步** 
 `vim /SRM/SmartRobot/kernel/cores/core0/conf/solrconfig.xml`
 
-```
-# 若為AP1者，將master區塊反註解，其餘註解之。
-# 若為AP2者，將slave區塊反註解，其餘註解之；slave內另需標註master IP與port
-，${solr.core.name}更換成對應的core 例如core0 (預設)。
+> [!warning] 
+ 若為AP1者，將master區塊反註解，其餘註解之。
+ 若為AP2者，將slave區塊反註解，其餘註解之；
+Slave內另需標註Master IP與Port，${solr.core.name}更換成對應的core 例如core0 (預設)。
 
+```
 <requestHandler name="/replication" class="solr.ReplicationHandler" >
      <!-- LB mode settings，目前先採用雙主機模式，
           未來超過兩台用 SolrCloud 模式更合適
@@ -233,15 +259,19 @@ AP Slave
 ![Pasted image_19.png](/img/user/img/Pasted%20image_19.png)    
 ![Pasted image_23.png](/img/user/img/Pasted%20image_23.png)    
    
-SmartRobot安裝手順AP Server   
+##### SmartRobot安裝手順AP Server   
+
 (兩台AP都需要設定，可以用winscp複製sh檔，但E. F.跟環境變數還是要設定)   
+
 啟動服務應該修改為Tomcat
-[SmartRobot (v7.1.0) 安裝機器人說明.docx](http://ikm.intumit.com/SmartKMS/doc/read.action?binderId=288137)   
-   
+[SmartRobot (v7.1.0) 安裝機器人說明.docx](http://ikm.intumit.com/SmartKMS/doc/read.action?binderId=288137)
+
 C.將wise.war放置於/SRM/SmartRobot/tomcat9/webapps 底下   
 `cd /SRM/SmartRobot/`   
 -d 解壓縮到指令目錄下，沒有的話會創建   
 `unzip SmartRobot-7.3.0-202412tw.war -d /SRM/SmartRobot/tomcat9/webapps/wise`   
+
+> [!tip]
 解壓縮錯的話，指定檔案以外全部刪除   
 `rm -rf !(wise.war)`   
    
@@ -268,8 +298,10 @@ DB_TYPE根據環境設置/MYSQL/MSSQL
 修改SRBT_HOME為SmartRobot目錄   
 SRBT_HOME=/SRM/SmartRobot/ 
 
-方法一 將JAVA跟CATALINA都加進sh裡面
-<span style="color: red">export裡面請不要換行，會影響到轉真人</span>
+###### 方法一 將JAVA跟CATALINA都加進sh裡面
+> [!bug]
+> export裡面請不要換行，會影響到轉真人
+
 ```js
 #!/bin/bash
 export SRBT_HOME=/SRM/SmartRobot
@@ -291,8 +323,8 @@ else
 fi
 ```
 
-方法二 JAVA加入環境變數即可 (可查看java -version) 
-<span style="color: red">不推薦</span> 如果後續有第二的tomcat要再改回sh
+###### 方法二 JAVA加入環境變數即可 (可查看java -version) 
+<span style="color: crimson">不推薦</span> 如果後續有第二個tomcat要再改回sh
 JAVA=$JAVA_HOME/bin/java   
 ```js
 加入JAVA_PATH
@@ -311,11 +343,12 @@ java -version
 
 修改webapps_dir路徑 (根據自身搭建環境修改)   
 if [ -z "${WEBAPPS_DIR+xxx}" ]; then
-export WEBAPPS_DIR=$SRBT_HOME/<span style="color: red">tomcat9</span>/webapps`
+export WEBAPPS_DIR=$SRBT_HOME/<span style="color: crimson">tomcat9</span>/webapps`
 
 最後一行修改sh的路徑   
 `${CATALINA_HOME}/bin/startup.sh`
 
+###### 
 2.`vim ./bin/tShutdown.sh`
 
 ```
@@ -326,9 +359,10 @@ export CATALINA_PID=/SRM/SmartRobot/tomcat9/bin/catalina.pid
 ${CATALINA_HOME}/bin/shutdown.sh
 ```
 
+> [!tip]
 查看tomcat的pid，或是java的pid   
-`ps aux \| grep tomcat`   
-`ps -ef \| grep tomcat`  
+`ps aux | grep tomcat`   
+`ps -ef | grep tomcat`  
 
 執行此行如果pid沒有刪除   
 `kill -9 [PID]`  
@@ -374,15 +408,16 @@ cp：是否覆蓋 '/SRM/SmartRobot/kernel/etc/application.properties'？ y
 ```
 砍掉先前tomcat的port 8080   
 `lsof -i :8080`   
-`netstat -tuln \| grep 8080`   
+`netstat -tuln | grep 8080`   
 `kill -9 [PID]`   
  
+> [!info] 
 更改 /SRM/ 權限   
 `chmod 755 /SRM/ -R`
 
-執行SmartRobot
-`cd /SRM/SmartRobot`   
-`./bin/tStartup.sh`   
+##### 執行SmartRobot
+`cd /SRM/SmartRobot`
+`./bin/tStartup.sh` 
 ![Pasted image_15.png](/img/user/img/Pasted%20image_15.png)    
 查看tomcat log服務是否正常   
 `less /SRM/SmartRobot/tomcat9/logs/catalina.out`
@@ -394,7 +429,9 @@ cp：是否覆蓋 '/SRM/SmartRobot/kernel/etc/application.properties'？ y
 [http://192.168.182.137:8081/wise/wiseadm](http://192.168.182.137:8081/wise/wiseadm)   
 ![Pasted image_q.png](/img/user/img/Pasted%20image_q.png)    
 
-初次執行完將create更改成 <span style="color: red">update</span>
+
+> [!danger]
+初次執行完要將create更改成 <span style="color: crimson">update</span>，否則資料庫會重建
 `vim /SRM/SmartRobot/kernel/etc/hibernate.cfg.xml`
 `<property name="hibernate.hbm2ddl.auto">update</property>`
 
@@ -405,10 +442,17 @@ intumit!!
 依照對應的192.168.182.137:8081 來源core建立公司   
 ![Pasted image_k.png](/img/user/img/Pasted%20image_k.png)    
 ![Pasted image_j.png](/img/user/img/Pasted%20image_j.png)
-192.168.182.130:8080 預設會有core0， ~~怕跟129搞混先刪除了~~   
-錯誤示範應該保留core0，後續會需要索引同步   
-最後是使用core8，兩邊都不要亂刪除!   
+192.168.182.130:8080 預設會有core0 
+
+> [!error] 
+~~怕跟129搞混先刪除了~~   
+錯誤示範!! 應該保留core0，後續會需要索引同步   
+最後是使用core8，兩邊都不要亂刪除!
+
 ![Pasted image_y.png](/img/user/img/Pasted%20image_y.png)
+
+> [!info]
+> Contents
 公司名稱: test   
 CoreName: core0   
 索引使用core0不需要帶其他參數   
@@ -429,6 +473,7 @@ DefaultLocale: zh_TW
 名稱: default   
 代號: web   
 ![Pasted image_5.png](/img/user/img/Pasted%20image_5.png)    
+
 成功開啟robot內建的網頁   
 [http://192.168.182.137:8081/wise/webchat/default/?t=oC56ls9rDQCvE6pSN%2B9i0w%3D%3D](http://192.168.182.137:8081/wise/webchat/default/?t=oC56ls9rDQCvE6pSN+9i0w==)   
 ![Pasted image_h.png](/img/user/img/Pasted%20image_h.png)    
@@ -438,8 +483,11 @@ DefaultLocale: zh_TW
 ![Pasted image 20250206092752.png](/img/user/img/Pasted%20image%2020250206092752.png)
 
 ![Pasted image_1.png](/img/user/img/Pasted%20image_1.png)    
+
+> [!tip]
 往下滑就能新增問答了   
-![Pasted image_11.png](/img/user/img/Pasted%20image_11.png)    
+![Pasted image_11.png](/img/user/img/Pasted%20image_11.png)
+
 問題名稱   
 ![Pasted image.png](/img/user/img/Pasted%20image.png)    
 問題回答   
@@ -453,5 +501,6 @@ DefaultLocale: zh_TW
 ![Pasted image_t.png](/img/user/img/Pasted%20image_t.png)    
 ![Pasted image_r.png](/img/user/img/Pasted%20image_r.png)    
 
+##### 
+> [!question] 
 制式文案修改會產生亂碼，參考[[SmartRobot/重新匯入制式文案\|重新匯入制式文案]]
-   
