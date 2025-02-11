@@ -4,13 +4,13 @@
 
 整篇主要參考
 [SmartRobot安裝手順(AP+DB+WEB，含系統參數設定)](http://ikm.intumit.com/SmartKMS/doc/read.action?binderId=84935)   
-![image_n.png](/img/user/img/image_n.png)
+![Pasted image_n.png](/img/user/img/Pasted%20image_n.png)
    
 安裝VMware Workstation 17 (需要註冊，照填台灣地址即可)   
 跟繁體包 (預設有簡中)
 **[VMware Workstation Pro 17 專業虛擬機軟體的繁體中文化](https://yourui0604.blogspot.com/2024/09/vmware-workstation-tw-locale-change.html)**   
 "C:\Program Files (x86)\VMware\VMware Workstation\vmware.exe"<mark style="background-color: #fff88f; color: black"> </mark>—locale zh_TW   
-![image_s.png](/img/user/img/image_s.png)
+![Pasted image_s.png](/img/user/img/Pasted%20image_s.png)
    
 安裝CentOS最新版本
 CentOS 7 或 Stream 9
@@ -18,7 +18,7 @@ CentOS 7 或 Stream 9
 [安装CentOS Stream 10版本的Linux虚拟机-CSDN博客](https://blog.csdn.net/soso678/article/details/145009527)   
 記得 CD/DVD 設定 ISO 檔案   
 C:\Program Files (x86)\VMware\VMware Workstation\.iso   
-![image_7.png](/img/user/img/image_7.png)    
+![Pasted image_7.png](/img/user/img/Pasted%20image_7.png)    
 [CentOS 7.0 不完全安裝手冊 - Step 8 設定「軟體選擇」 \| IT 技術家](https://blog.itist.tw/2014/08/centos7-install08.html)   
 選Server或是Server with GUI   
 設置root 勾選<span style="color: red">允許ssh登入</span>   
@@ -41,14 +41,14 @@ fi
 `vi /etc/sysconfig/selinux`   
 `SELINUX=disabled`   
 `systemctl disable firewalld.service`   
-![image_u.png](/img/user/img/image_u.png)  
+![Pasted image_u.png](/img/user/img/Pasted%20image_u.png)  
 重新啟動，ssh會需要重連   
 `reboot`
 
 winscp上傳檔案   
 路徑在 `cd /`   
 `mkdir -p /SRM/SmartRobot`   
-![image_o.png](/img/user/img/image_o.png)    
+![Pasted image_o.png](/img/user/img/Pasted%20image_o.png)    
 
 安裝unzip解壓縮檔案
 `sudo yum install unzip`   
@@ -83,7 +83,7 @@ rm SmartRobot-7.3.0-202412tw.war
 [修改Linux密碼提示it is based on a dictionary word怎麼辦？](https://www.unixlinux.online/unixlinux/linuxgl/linuxwh/201703/74613.html)   
 但這邊是使用root帳號可以強制更改   
 所以密碼同: helpdesk   
-![image_0.png](/img/user/img/image_0.png)    
+![Pasted image_0.png](/img/user/img/Pasted%20image_0.png)    
    
 安裝MariaDB (可安裝在AP1或是另開一台機器，這邊裝在AP1)   
 `yum install mariadb-server.x86_64`   
@@ -112,7 +112,7 @@ set password=PASSWORD('<span style="color: red">password</span>');
 MariaDB為了提高安全性，默認只監聽127.0.0.1的3306 port 並禁止TCP連線   
 `select user,host from mysql.user;`   
 查看Host為localhost   
-![image_d.png](/img/user/img/image_d.png)
+![Pasted image_d.png](/img/user/img/Pasted%20image_d.png)
 [為 MariaDB 配置遠端存取權限](https://blog.csdn.net/lanuage/article/details/78846766)   
 %代表所有IP，password表示將用這個密碼登入root用戶   
 `*.*` 記得別漏掉   
@@ -135,7 +135,7 @@ AP2
 
 `select user,host from mysql.user;`
 `exit`
-![image_z.png](/img/user/img/image_z.png)
+![Pasted image_z.png](/img/user/img/Pasted%20image_z.png)
    
 修改DB設定 (AP1與AP2都要修改連線到指定DB)   
 `vim /SRM/SmartRobot/kernel/etc/hibernate.cfg.xml`   
@@ -159,7 +159,7 @@ cp hibernate.cfg.xml.sample hibernate.cfg.xml
     <property name="hibernate.hbm2ddl.auto">create</property>
 ```
 
-![image_p.png](/img/user/img/image_p.png)
+![Pasted image_p.png](/img/user/img/Pasted%20image_p.png)
 
 記憶體設定   
 [jvm调优技巧 - 内存抖动 、Xms和Xmx参数为什么要设置相同的值](https://blog.csdn.net/qq_27184497/article/details/119052930)   
@@ -175,10 +175,10 @@ cp hibernate.cfg.xml.sample hibernate.cfg.xml
 設定佔用90%   
 1735.75x90%=1562.175 MB
 -Xmx1562M
-![image_1l.png](/img/user/img/image_1l.png)
+![Pasted image_17.png](/img/user/img/Pasted%20image_17.png)
 
 此圖為 jStartup.bat的設定，tStartup.sh請參考 加入CATALINA_PATH
-![image_g.png](/img/user/img/image_g.png)    
+![Pasted image_g.png](/img/user/img/Pasted%20image_g.png)    
    
 **設定Master / Slave (2 AP)**   
 有兩台AP時需要設定   
@@ -200,9 +200,9 @@ cp hibernate.cfg.xml.sample hibernate.cfg.xml
     
 ```
 AP Master   
-![image_w.png](/img/user/img/image_w.png)    
+![Pasted image_w.png](/img/user/img/Pasted%20image_w.png)    
 AP Slave   
-![image_2h.png](/img/user/img/image_2h.png)    
+![Pasted image_21.png](/img/user/img/Pasted%20image_21.png)
 **設定索引同步** 
 `vim /SRM/SmartRobot/kernel/cores/core0/conf/solrconfig.xml`
 
@@ -230,8 +230,8 @@ AP Slave
       -->
 ```
 
-![image_19.png](/img/user/img/image_19.png)    
-![image_32.png](/img/user/img/image_32.png)    
+![Pasted image_19.png](/img/user/img/Pasted%20image_19.png)    
+![Pasted image_23.png](/img/user/img/Pasted%20image_23.png)    
    
 SmartRobot安裝手順AP Server   
 (兩台AP都需要設定，可以用winscp複製sh檔，但E. F.跟環境變數還是要設定)   
@@ -259,7 +259,7 @@ DB_TYPE根據環境設置/MYSQL/MSSQL
 `./bin/tShutdown.sh`   
 檢視服務   
 `./bin/tViewLog.sh`   
-![image_14.png](/img/user/img/image_14.png)    
+![Pasted image_14.png](/img/user/img/Pasted%20image_14.png)    
    
 更改 /SRM/ 權限   
 `chmod 755 /SRM/ -R`
@@ -307,7 +307,7 @@ source ~/.bashrc
 java -version
 ```
 
-![image_3.png](/img/user/img/image_3.png)    
+![Pasted image_3.png](/img/user/img/Pasted%20image_3.png)    
 
 修改webapps_dir路徑 (根據自身搭建環境修改)   
 if [ -z "${WEBAPPS_DIR+xxx}" ]; then
@@ -383,16 +383,16 @@ cp：是否覆蓋 '/SRM/SmartRobot/kernel/etc/application.properties'？ y
 執行SmartRobot
 `cd /SRM/SmartRobot`   
 `./bin/tStartup.sh`   
-![image_1e.png](/img/user/img/image_1e.png)    
+![Pasted image_15.png](/img/user/img/Pasted%20image_15.png)    
 查看tomcat log服務是否正常   
 `less /SRM/SmartRobot/tomcat9/logs/catalina.out`
-![image_2.png](/img/user/img/image_2.png)    
-![image_f.png](/img/user/img/image_f.png)    
+![Pasted image_2.png](/img/user/img/Pasted%20image_2.png)    
+![Pasted image_f.png](/img/user/img/Pasted%20image_f.png)    
    
 全部步驟順利的話~成功啟動   
 [http://192.168.182.137:8081/wise/wiseadm/login.jsp](http://192.168.182.137:8081/wise/wiseadm/login.jsp)   
 [http://192.168.182.137:8081/wise/wiseadm](http://192.168.182.137:8081/wise/wiseadm)   
-![image_q.png](/img/user/img/image_q.png)    
+![Pasted image_q.png](/img/user/img/Pasted%20image_q.png)    
 
 初次執行完將create更改成 <span style="color: red">update</span>
 `vim /SRM/SmartRobot/kernel/etc/hibernate.cfg.xml`
@@ -401,20 +401,20 @@ cp：是否覆蓋 '/SRM/SmartRobot/kernel/etc/application.properties'？ y
 登入帳號密碼，驚嘆號記得打   
 admin   
 intumit!!   
-![image_k.png](/img/user/img/image_k.png)    
+![Pasted image_k.png](/img/user/img/Pasted%20image_k.png)    
 依照對應的192.168.182.137:8081 來源core建立公司   
-![image_k.png](/img/user/img/image_k.png)    
-![image_j.png](/img/user/img/image_j.png)
+![Pasted image_k.png](/img/user/img/Pasted%20image_k.png)    
+![Pasted image_j.png](/img/user/img/Pasted%20image_j.png)
 192.168.182.130:8080 預設會有core0， ~~怕跟129搞混先刪除了~~   
 錯誤示範應該保留core0，後續會需要索引同步   
 最後是使用core8，兩邊都不要亂刪除!   
-![image_y.png](/img/user/img/image_y.png)
+![Pasted image_y.png](/img/user/img/Pasted%20image_y.png)
 公司名稱: test   
 CoreName: core0   
 索引使用core0不需要帶其他參數   
 DefaultLocale: zh_TW   
 備註: CTC Test   
-![image_4.png](/img/user/img/image_4.png)    
+![Pasted image_4.png](/img/user/img/Pasted%20image_4.png)    
 功能設定區塊   
 啟用上下文: On   
 啟用文字客服: Off   
@@ -422,35 +422,36 @@ DefaultLocale: zh_TW
 是否啟用: On   
 啟用一般用戶前台: On   
 是否開啟偵錯: On   
-![image_8.png](/img/user/img/image_8.png)    
+![Pasted image_8.png](/img/user/img/Pasted%20image_8.png)    
 點擊: Channel Management   
 添加多圖文設定   
 格式: RICH_TEXT   
 名稱: default   
 代號: web   
-![image_5.png](/img/user/img/image_5.png)    
+![Pasted image_5.png](/img/user/img/Pasted%20image_5.png)    
 成功開啟robot內建的網頁   
 [http://192.168.182.137:8081/wise/webchat/default/?t=oC56ls9rDQCvE6pSN%2B9i0w%3D%3D](http://192.168.182.137:8081/wise/webchat/default/?t=oC56ls9rDQCvE6pSN+9i0w==)   
-![image_h.png](/img/user/img/image_h.png)    
+![Pasted image_h.png](/img/user/img/Pasted%20image_h.png)    
 開啟一般問答，先點擊變身   
-![image_x.png](/img/user/img/image_x.png)
+![Pasted image_x.png](/img/user/img/Pasted%20image_x.png)
 需要另外設定使用者管理，即可使用上方的一般問答
 ![Pasted image 20250206092752.png](/img/user/img/Pasted%20image%2020250206092752.png)
 
-![image_1.png](/img/user/img/image_1.png)    
+![Pasted image_1.png](/img/user/img/Pasted%20image_1.png)    
 往下滑就能新增問答了   
-![image_11.png](/img/user/img/image_11.png)    
+![Pasted image_11.png](/img/user/img/Pasted%20image_11.png)    
 問題名稱   
-![image.png](/img/user/img/image.png)    
+![Pasted image.png](/img/user/img/Pasted%20image.png)    
 問題回答   
-![image_6.png](/img/user/img/image_6.png)    
+![Pasted image_6.png](/img/user/img/Pasted%20image_6.png)    
 問題關鍵字   
-![image_1r.png](/img/user/img/image_1r.png)    
+![Pasted image_18.png](/img/user/img/Pasted%20image_18.png)
 成功回覆問題 (需要先在前台回覆，後面訊息框才會更新)   
-![image_16.png](/img/user/img/image_16.png)    
-![image_l.png](/img/user/img/image_l.png)    
+![Pasted image_16.png](/img/user/img/Pasted%20image_16.png)    
+![Pasted image_l.png](/img/user/img/Pasted%20image_l.png)    
 設定Master / Slave (2 AP) 成功畫面如下   
-![image_t.png](/img/user/img/image_t.png)    
-![image_r.png](/img/user/img/image_r.png)    
- 
+![Pasted image_t.png](/img/user/img/Pasted%20image_t.png)    
+![Pasted image_r.png](/img/user/img/Pasted%20image_r.png)    
+
+制式文案修改會產生亂碼，參考[[SmartRobot/重新匯入制式文案\|重新匯入制式文案]]
    
