@@ -60,6 +60,7 @@ markdown只能使用css，所以需要插件另外變紅字跟背景高亮黃
 
 ##### Obsidian小技巧
 修改圖片大小方式
-Pasted image 20250211122637.png 輸入要更改的png檔名
+Pasted image 20250211124511.png 輸入要更改的png檔名
+或是網址，如果要分享到網頁又想修改大小的話
 後面加上style 高跟寬，一個設定完另一個auto比較不會變形
-`<img src="Pasted image 20250211122637.png" style="width: 350px; height: auto;"/>`
+`<img src="Pasted image 20250211124511.png" style="width: 350px; height: auto;"/>`
