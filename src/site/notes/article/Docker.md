@@ -10,6 +10,9 @@ Docker介紹
 屬於作業系統層虛擬化 O.S Virtualization，可以讓應用程式部署在軟體容器下的工作自動化執行。
 虛擬機是基於硬體層的虛擬化技術，Docker 相對來說更加輕量和高效，但虛擬機則提供了更強的隔離性
 
+容器歷史
+<img src="Pasted image 20250211122637.png" style="width: 350px; height: auto;"/>
+
 Docker與虛擬機比較
 
 - **容器與虛擬機**：
