@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/Obsidian/"}
+{"dg-publish":true,"permalink":"/obsidian/"}
 ---
 
 
@@ -26,7 +26,8 @@ C:/Users/user/Documents/Obsidian/intumit/.git
 [Obsidian 免费建站发布网页 | 基于 Digital Garden + Github + Netlify - Another Dayu](https://anotherdayu.com/2022/4222/)
 
 插件 "Digital Garden" 的設置頁面如下
-Slugify Note URL如果筆記有中文資料夾記得取消勾選
+Slugify Note URL的選項不能取消勾選，不然會連笑臉都沒辦法出現
+創建資料夾不要用中文否則無法存取底下的文章
 ![Pasted image 20250204141301.png](/img/user/img/Pasted%20image%2020250204141301.png)
 ![Pasted image 20250204135747.png](/img/user/img/Pasted%20image%2020250204135747.png)
 

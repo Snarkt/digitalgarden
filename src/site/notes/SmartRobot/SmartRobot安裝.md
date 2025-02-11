@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/SmartRobot/SmartRobot安裝/"}
+{"dg-publish":true,"permalink":"/smart-robot/smart-robot/"}
 ---
 
 整篇主要參考

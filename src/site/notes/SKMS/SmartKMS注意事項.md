@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/SKMS/SmartKMS注意事項/"}
+{"dg-publish":true,"permalink":"/skms/smart-kms/"}
 ---
 
 

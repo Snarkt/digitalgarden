@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/SKMS/SKMS憑證/"}
+{"dg-publish":true,"permalink":"/skms/skms/"}
 ---
 
 
