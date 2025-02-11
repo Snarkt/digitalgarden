@@ -3,7 +3,7 @@
 ---
 
 
-自動推git的方法
+##### 自動推git的方法
 在需要推git的資料夾有個.obsidian的目錄先用gitgub desktop創建repo 
 ![Pasted image 20250204134531.png](/img/user/img/Pasted%20image%2020250204134531.png)
 載三方套件git之後再載git設定git.exe路徑(git.exe也要填)
@@ -20,7 +20,7 @@ C:/Users/user/Documents/Obsidian/intumit/.git
 最後會多個套件插槽可以直接進行版控  
 設定那邊也有auto commit
 
-建立網站分享筆記
+##### 建立網站分享筆記
 參考如下
 [Obsidian 简明发布方式](https://enneaa.netlify.app/pages/obsidian%20%E7%AE%80%E6%98%8E%E5%8F%91%E5%B8%83%E6%96%B9%E5%BC%8F/)
 [Obsidian 免费建站发布网页 | 基于 Digital Garden + Github + Netlify - Another Dayu](https://anotherdayu.com/2022/4222/)
@@ -45,7 +45,7 @@ Slugify Note URL的選項不能取消勾選，不然會連笑臉都沒辦法出�
 最後畫面如下
 ![Pasted image 20250204143108.png](/img/user/img/Pasted%20image%2020250204143108.png)
 
-好用插件分享
+##### 好用插件分享
 1.Linter
 Lint on save，用 Ctrl+S 直接套用
 ![Pasted image 20250204140051.png](/img/user/img/Pasted%20image%2020250204140051.png)
@@ -57,3 +57,9 @@ YAML頁簽底下可以設定Timestamp
 2.Style Text
 markdown只能使用css，所以需要插件另外變紅字跟背景高亮黃
 ![Pasted image 20250204140520.png](/img/user/img/Pasted%20image%2020250204140520.png)
+
+##### Obsidian小技巧
+修改圖片大小方式
+Pasted image 20250211122637.png 輸入要更改的png檔名
+後面加上style 高跟寬，一個設定完另一個auto比較不會變形
+`<img src="Pasted image 20250211122637.png" style="width: 350px; height: auto;"/>`
