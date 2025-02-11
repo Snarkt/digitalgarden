@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/smart-robot/smart-robot-nginx/"}
+{"dg-publish":true,"permalink":"/SmartRobot/SmartRobot掛載nginx+憑證/"}
 ---
 
 

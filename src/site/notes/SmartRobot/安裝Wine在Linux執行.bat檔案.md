@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/smart-robot/wine-linux-bat/"}
+{"dg-publish":true,"permalink":"/SmartRobot/安裝Wine在Linux執行.bat檔案/"}
 ---
 
 參考文件: [How To Install Wine on CentOS Stream 10 - idroot](https://idroot.us/install-wine-centos-stream-10/)
