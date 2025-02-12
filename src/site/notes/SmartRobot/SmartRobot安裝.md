@@ -442,7 +442,7 @@ intumit!!
 依照對應的192.168.182.137:8081 來源core建立公司   
 ![Pasted image_k.png](/img/user/img/Pasted%20image_k.png)    
 ![Pasted image_j.png](/img/user/img/Pasted%20image_j.png)
-192.168.182.130:8080 預設會有core0 
+192.168.182.137:8081 預設會有core0 
 
 > [!error] 
 ~~怕跟129搞混先刪除了~~   

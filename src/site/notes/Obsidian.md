@@ -2,7 +2,6 @@
 {"dg-publish":true,"permalink":"/obsidian/"}
 ---
 
-# Obsidian
 
 ##### 自動推git的方法
 在需要推git的資料夾有個.obsidian的目錄先用gitgub desktop創建repo 

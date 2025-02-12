@@ -2,7 +2,7 @@
 {"dg-publish":true,"permalink":"/article/docker/"}
 ---
 
-
+[前言 | 《Docker —— 從入門到實踐­》正體中文版](https://philipzheng.gitbook.io/docker_practice)
 
 > [!info]
 Docker介紹
@@ -47,7 +47,7 @@ docker stop  容器名子  #停止容器
 docker rm -f 容器代號  #刪除容器  -f  強制刪除
 docker logs -f 容器名子 #查看容器的log
 docker rmi images    #刪除用不到的images檔，如果有容器在使用該映像檔，需先刪除容器才能刪除映像檔
-docker exec -it 容器代號 /bin/bash
+docker exec -it 容器代號 /bin/bash #進入docker
 docker run -it image名子 /bin/bash #建立一個新的容器並執行
 docker run --name some-nginx -v /some/content:/usr/share/nginx/html:ro -d nginx
 docker run --name some-nginx -d some-content-nginx
@@ -61,5 +61,8 @@ docker-compose up -d  #執行所有在docker-compose.yaml檔案設定的 Docker
 docker-compose stop  #停止docker-compose執行的所有Container
 docker-compose rm    #刪除docker-compose的所有Container
 docker-compose logs -f #t查看log
-
 ```
+
+退出容器而不停止：
+輸入 Ctrl + P 然後按 Ctrl + Q
+exit、Ctrl+D會讓容器中止，需要再start
