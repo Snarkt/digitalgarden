@@ -9,8 +9,10 @@ Docker介紹
 [輕量虛擬化改寫IT歷史　Docker容器技術細說從頭 | 網管人](https://www.netadmin.com.tw/netadmin/zh-tw/feature/1DB50AE57AC1401F98C641366F8D0720)
 [Docker Architecture & O.S Virtualization in Docker | by KUSHAGRA BANSAL | Medium](https://bansalkushagra.medium.com/docker-architecture-o-s-virtualization-in-docker-a32ba4042215)
 開放原始碼軟體專案Docker是一個輕量級的虛擬化技術
-屬於作業系統層虛擬化 O.S Virtualization，可以讓應用程式部署在軟體容器下的工作自動化執行。
-虛擬機是基於硬體層的虛擬化技術 Guest OS，Docker 相對來說更加輕量和高效，但虛擬機則提供了更強的隔離性
+屬於作業系統層虛擬化 O.S Virtualization
+可以讓應用程式部署在軟體容器下的工作自動化執行。
+虛擬機是基於硬體層的虛擬化技術 Guest OS
+Docker 相對來說更加輕量和高效，但虛擬機則提供了更強的隔離性
 
 容器歷史
 <img src="https://i.imgur.com/0wEzHDB.png" style="width: 350px; height: auto;"/>
