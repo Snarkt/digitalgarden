@@ -5,7 +5,7 @@
 
 chmod 755 /SRM/ -R
 
-installer.sh
+##### installer.sh
 修改root的判斷式
 ```
   # Make sure using [root] account for implementation.
@@ -98,20 +98,20 @@ Check_is_support_OS() {
 
 修改完installer.sh後正常安裝
 Stage 1~3
-![Pasted image 20250212143911.png](/img/user/img/pasted/Pasted%20image%2020250212143911.png)
+![Pasted image 20250212143911.png](/img/user/img/Pasted%20image%2020250212143911.png)
 
 Stage 4、5
-![Pasted image 20250212143929.png](/img/user/img/pasted/Pasted%20image%2020250212143929.png)
+![Pasted image 20250212143929.png](/img/user/img/Pasted%20image%2020250212143929.png)
 
 Stage 6
-![Pasted image 20250212145102.png](/img/user/img/pasted/Pasted%20image%2020250212145102.png)
+![Pasted image 20250212145102.png](/img/user/img/Pasted%20image%2020250212145102.png)
 
 Stage 7
 Docker Compose (`docker-compose.yml`) 版本 1.27 以後`version` 屬性可以去除掉，並且 Docker Compose 會忽略它。 (不影響就保留起來)
-![Pasted image 20250212144845.png](/img/user/img/pasted/Pasted%20image%2020250212144845.png)
+![Pasted image 20250212144845.png](/img/user/img/Pasted%20image%2020250212144845.png)
 
 Stage 8
-![Pasted image 20250212145223.png](/img/user/img/pasted/Pasted%20image%2020250212145223.png)
+![Pasted image 20250212145223.png](/img/user/img/Pasted%20image%2020250212145223.png)
 
 yaml位置
 /SRM/PVC/poc-ap1/docker-compose.yml
@@ -119,13 +119,15 @@ yaml位置
 cd /SRM/PVC/poc-ap1/
 docker --version
 docker compose version
-![Pasted image 20250212160503.png](/img/user/img/pasted/Pasted%20image%2020250212160503.png)
+![Pasted image 20250212160503.png](/img/user/img/Pasted%20image%2020250212160503.png)
 
 docker compose up -d
-![Pasted image 20250212160622.png](/img/user/img/pasted/Pasted%20image%2020250212160622.png)
+![Pasted image 20250212160622.png](/img/user/img/Pasted%20image%2020250212160622.png)
 
 docker ps -a
-![Pasted image 20250212161019.png](/img/user/img/pasted/Pasted%20image%2020250212161019.png)
+![Pasted image 20250212161019.png](/img/user/img/Pasted%20image%2020250212161019.png)
+
+##### poc-db1-mariadb
 
 docker logs feb52a5c88a9
 docker logs poc-db1-mariadb
@@ -157,6 +159,86 @@ exit、Ctrl+D會讓容器中止，需要再start
 
 [解决docker安装MariaDB后其他容器访问报Access denied for user 'root'@'127.0.0.1' (using password: YES) - 会coding的HAM](https://blog.bg7zag.com/2773)
 vi /etc/my.cnf
-![Pasted image 20250212170952.png](/img/user/img/pasted/Pasted%20image%2020250212170952.png)
+![Pasted image 20250212170952.png](/img/user/img/Pasted%20image%2020250212170952.png)
 
-![Pasted image 20250212174645.png](/img/user/img/pasted/Pasted%20image%2020250212174645.png)
+![Pasted image 20250212174645.png](/img/user/img/Pasted%20image%2020250212174645.png)
+
+##### poc-web1-nginx
+
+SmartRobot網址
+https://192.168.182.143/wise/wiseadm/
+
+docker exec -it b6260ac0c07b sh
+docker exec -it poc-web1-nginx sh
+
+安裝vim
+`cat /etc/os-release`
+NAME="Alpine Linux"
+ID=alpine
+VERSION_ID=3.20.2
+PRETTY_NAME="Alpine Linux v3.20"
+HOME_URL="https://alpinelinux.org/"
+BUG_REPORT_URL="https://gitlab.alpinelinux.org/alpine/aports/-/issues"
+
+Alpine是極小的docker images os
+`apk add vim`
+
+###### nginx proxy_pass
+`vim /etc/nginx/conf.d/https_location_conf/location-https_SmartRobot_AP`
+
+![Pasted image 20250213111642.png](/img/user/img/Pasted%20image%2020250213111642.png)
+> [!tip] 
+在Linux查看Windows創建的文本時會出現^M
+解決方式
+`dos2unix filename`
+[Linux下去掉^M的方法_linux 消除^m-CSDN博客](https://blog.csdn.net/zhuyunier/article/details/78831989)
+
+###### 01設定https憑證 (主要連結頁 >04、05)
+`vim 01-server_https.conf`
+
+`include /etc/nginx/conf.d/https_location_conf/location-https_SmartRobot_AP;`
+![Pasted image 20250213154852.png](/img/user/img/Pasted%20image%2020250213154852.png)
+
+![Pasted image 20250213113339.png](/img/user/img/Pasted%20image%2020250213113339.png)
+1. `listen 443 ssl;`
+2. `listen [::]:443 ssl;`
+	這行配置是用來啟用 IPv6 上的 HTTPS。[::] 是 IPv6 的通配符地址，代表接受所有來自 IPv6 地址的連線
+3. `server_name _`
+	這行設置 server_name，指定服務器的域名。`_`是一個通配符的寫法，通常用來捕捉所有未明確指定的請求。在這裡你可以用具體的域名來替換 `_`。
+4. `ssl_certificate ...`
+		這行配置指定了 SSL 證書的路徑
+5. `include /etc/nginx/conf.d/04;`
+	這行是用來引入其他配置文件的內容，讓 Nginx 可以在當前配置中載入 `/etc/nginx/conf.d/04` 文件的設定。
+
+###### 04設定https通用安全性檔案
+`vim 04-server_common_https_settings`
+
+![Pasted image 20250213140355.png](/img/user/img/Pasted%20image%2020250213140355.png)
+SSL安全設定
+![Pasted image 20250213142103.png](/img/user/img/Pasted%20image%2020250213142103.png)
+proxy快取設定
+![Pasted image 20250213142150.png](/img/user/img/Pasted%20image%2020250213142150.png)
+
+安全性HTTP headers
+![Pasted image 20250213142321.png](/img/user/img/Pasted%20image%2020250213142321.png)
+![Pasted image 20250213142409.png](/img/user/img/Pasted%20image%2020250213142409.png)
+
+特殊漏洞安全性區塊
+![Pasted image 20250213143840.png](/img/user/img/Pasted%20image%2020250213143840.png)
+$websocket_same_origin_policy
+WebSocket 可以跨來源（不同的域名、協議或端口）建立連接，這樣有時會帶來安全風險，所以這邊有設定限制
+
+**"allow non-browser clients"**（允許非瀏覽器客戶端），這指的是允許來自非典型瀏覽器的客戶端（如手機應用、桌面應用或其他後端服務）連接到你的 WebSocket 伺服器或與你的 API 進行交互。
+
+###### 05設定location 自訂 error 頁面
+`vim 05-location_custom_error_page`
+
+![Pasted image 20250213152757.png](/img/user/img/Pasted%20image%2020250213152757.png)
+
+###### 02設定http沒有憑證 (主要連結頁 >03、05)
+`vim 02-server_http.conf.disabled`
+
+`include /etc/nginx/conf.d/http_location_conf/location-http_SmartRobot_AP;`
+![Pasted image 20250213154938.png](/img/user/img/Pasted%20image%2020250213154938.png)
+![Pasted image 20250213155039.png](/img/user/img/Pasted%20image%2020250213155039.png)
+###### 03設定http通用安全性檔案 (設定同04)
