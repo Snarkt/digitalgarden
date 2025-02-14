@@ -3,8 +3,10 @@
 ---
 
 
+> [!tip] 修改權限
 chmod 755 /SRM/ -R
 
+/SRM/PVC/poc-ap1
 ##### installer.sh
 修改root的判斷式
 ```
@@ -159,8 +161,16 @@ exit、Ctrl+D會讓容器中止，需要再start
 
 [解决docker安装MariaDB后其他容器访问报Access denied for user 'root'@'127.0.0.1' (using password: YES) - 会coding的HAM](https://blog.bg7zag.com/2773)
 vi /etc/my.cnf
+```
+在mysqld區塊底下添加skip-grant-tables
+[mysqld]
+skip-grant-tables
+```
+
 ![Pasted image 20250212170952.png](/img/user/img/Pasted%20image%2020250212170952.png)
 
+重新啟動即可連結到mariadb
+docker restart poc-db1-mariadb
 ![Pasted image 20250212174645.png](/img/user/img/Pasted%20image%2020250212174645.png)
 
 ##### poc-web1-nginx
@@ -242,3 +252,7 @@ WebSocket 可以跨來源（不同的域名、協議或端口）建立連接，�
 ![Pasted image 20250213154938.png](/img/user/img/Pasted%20image%2020250213154938.png)
 ![Pasted image 20250213155039.png](/img/user/img/Pasted%20image%2020250213155039.png)
 ###### 03設定http通用安全性檔案 (設定同04)
+
+##### poc-ap1-smartrobot
+
+
