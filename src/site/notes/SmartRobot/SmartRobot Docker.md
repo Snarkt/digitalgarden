@@ -173,10 +173,14 @@ skip-grant-tables
 docker restart poc-db1-mariadb
 ![Pasted image 20250212174645.png](/img/user/img/Pasted%20image%2020250212174645.png)
 
+無法使用mysql
+apk update
+apk upgrade
+apk add --no-cache mariadb mariadb-client
 ##### poc-web1-nginx
 
 SmartRobot網址
-https://192.168.182.143/wise/wiseadm/
+https://192.168.182.144/wise/wiseadm/
 
 docker exec -it b6260ac0c07b sh
 docker exec -it poc-web1-nginx sh
@@ -255,4 +259,28 @@ WebSocket 可以跨來源（不同的域名、協議或端口）建立連接，�
 
 ##### poc-ap1-smartrobot
 
+> [!tip]
+>根據nginx設定的網址
+>記得要有https跟去掉port號
 
+https://192.168.182.144/wise/wiseadm/
+
+> [!NOTE]
+登入為SmartRobot的後台，創建的使用者也是
+
+###### AOAI
+登入AOAI的帳密需要到
+權限管理>其他>重製管理密碼
+![Pasted image 20250217102405.png](/img/user/img/Pasted%20image%2020250217102405.png)
+
+最後在登入右鍵新分頁 (建議用新瀏覽器)
+admin
+S&"k.fcG
+![Pasted image 20250217104451.png](/img/user/img/Pasted%20image%2020250217104451.png)
+
+一般用戶前台還是相同的地方
+右鍵複製連結開啟分新頁
+![Pasted image 20250217110036.png](/img/user/img/Pasted%20image%2020250217110036.png)
+
+沒有文客只會顯示選項1
+![Pasted image 20250217111349.png](/img/user/img/Pasted%20image%2020250217111349.png)

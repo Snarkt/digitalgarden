@@ -302,6 +302,10 @@ SRBT_HOME=/SRM/SmartRobot/
 > [!bug]
 > export裡面請不要換行，會影響到轉真人
 
+> [!tip]
+Windows編輯過檔案可能導致sh執行時：指令找不到
+可以使用dos2unix，或是手動修改換行符號
+
 ```js
 #!/bin/bash
 export SRBT_HOME=/SRM/SmartRobot
@@ -312,7 +316,10 @@ export PATH=$JAVA_HOME/bin:$PATH
 export CATALINA_HOME=/SRM/SmartRobot/tomcat9
 export CATALINA_PID=/SRM/SmartRobot/tomcat9/bin/catalina.pid
 export CATALINA_OPTS="-Xms512M -Xmx1562M"
-export JAVA_OPTS="${JAVA_OPTS} -Xmx1562M -Xms512M -XX:MetaspaceSize=256M -Djava.util.logging.config.file=${CATALINA_HOME}/conf/logging.properties"
+export JAVA_OPTS="${JAVA_OPTS} \
+-Xmx1562M -Xms512M -XX:MetaspaceSize=256M \
+-XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+DisableExplicitGC \
+-Djava.util.logging.config.file=${CATALINA_HOME}/conf/logging.properties"
 
 #添加catalina.pid檔案
 if [ -f "${CATALINA_PID}" ]; then
@@ -321,6 +328,15 @@ else
     echo "CATALINA_PID does not exist. Creating new file"
     touch $CATALINA_PID
 fi
+```
+
+以下JAVA_OPTS GC參數為JDK8以前
+```
+-XX:-UseGCOver headLimit \
+-XX:+UseConcMarkSweepGC \
+-XX:+CMSIncrementalMode \
+-XX:+DisableExplicitGC \
+-XX:CMSInitiatingOccupancyFraction=80"
 ```
 
 ###### 方法二 JAVA加入環境變數即可 (可查看java -version) 
@@ -348,14 +364,21 @@ export WEBAPPS_DIR=$SRBT_HOME/<span style="color: crimson">tomcat9</span>/webapp
 最後一行修改sh的路徑   
 `${CATALINA_HOME}/bin/startup.sh`
 
-###### 
-2.`vim ./bin/tShutdown.sh`
+###### 2.`vim ./bin/tShutdown.sh`
 
-```
+```js
 #!/bin/bash
 export JAVA_HOME=/SRM/SmartRobot/openjdk
+export JAVA=${JAVA_HOME}/bin/java
 export CATALINA_HOME=/SRM/SmartRobot/tomcat9
-export CATALINA_PID=/SRM/SmartRobot/tomcat9/bin/catalina.pid
+export CATALINA_PID=${CATALINA_HOME}/bin/catalina.pid
+export SRBT_HOME=/SRM/SmartRobot
+export TOMCAT_HOME=${SRBT_HOME}/tomcat9
+
+pushd ${TOMCAT_HOME}/bin/ &>/dev/null
+./catalina.sh stop 10 -force
+popd &>/dev/null
+
 ${CATALINA_HOME}/bin/shutdown.sh
 ```
 
@@ -379,10 +402,14 @@ export CATALINA_OPTS="-Xms512M -Xmx1562M"
 source ~/.bashrc
 ```
 
-3.`vim ./bin/tViewLog.sh`   
+###### 3.`vim ./bin/tViewLog.sh`   
 注意檔案路徑
 直接實時查看log tail -f
-`tail -f /SRM/SmartRobot/tomcat9/logs/catalina.out`   
+```js
+#!/bin/bash
+export SRBT_HOME=/SRM/SmartRobot
+tail -f ${SRBT_HOME}/tomcat9/logs/catalina.out
+```
 
 E.複製.sample更名，並根據環境使用相對應的SQL設定
 `cd /SRM/SmartRobot/kernel/etc`   
