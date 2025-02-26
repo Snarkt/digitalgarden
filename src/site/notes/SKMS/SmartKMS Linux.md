@@ -17,15 +17,43 @@
 重新啟動，ssh會需要重連
 `reboot`
 
+目錄整理
+mkdir /SRM
+cd /SRM
+unzip smartkms-build-251_5d76c74-bin.zip
+mv smartkms-build-251_5d76c74 SmartKMS
+![Pasted image 20250226154625.png](/img/user/img/pasted/Pasted%20image%2020250226154625.png)
+將jdk11、tbin、solr-9.7.0.tgz、tomcat9.zip 解壓到SmartKMS內
 
+mv SmartKMS.war Solr.war tomcat9/webapps/
+unzip SmartKMS.war -d SmartKMS
+unzip Solr.war -d Solr
 
+解壓縮 jdk
+	1. jdk
+	`tar -xzvf openlogic-openjdk-11.0.26+4-linux-x64.tar.gz`
+	`mv openlogic-openjdk-8u442-b06-linux-x64 openjdk`   
+	2. jre
+	`tar -xzvf openlogic-openjdk-jre-11.0.26+4-linux-x64.tar.gz`
+	`mv openlogic-openjdk-jre-8u432-b06-linux-x64 openjdk/jre`
+	
+	mv jre openjdk/
+
+添加權限
+chmod 755 /SRM -R
 
 SmartKMS對Application Servers的整合支援：
 
 J2EE相容之Web伺服器（例如：Apache Tomcat 9）。
 ※特別注意：
 
-Tomcat8或9，請記得改Tomcat的server.xml內URIEncoding="UTF-8" maxPostSize="0"要換成URIEncoding="UTF-8" maxPostSize="-1" maxHttpHeaderSize="204800"。
+vim /SRM/SmartKMS/tomcat9/conf/server.xml
+
+Tomcat8或9
+請記得改Tomcat的server.xml內
+URIEncoding="UTF-8" maxPostSize="0"要換成
+URIEncoding="UTF-8" maxPostSize="-1" maxHttpHeaderSize="204800"。
+
 已有UTF-8另外添加maxPostSize="-1" maxHttpHeaderSize="204800"即可
 
 1.tomcat
@@ -50,51 +78,51 @@ export JAVA_OPTS="-Dskms.home=${KMS_HOME}/Server -Dsolr.solr.home=${KMS_HOME}/So
 $CATALINA_HOME/bin/startup.sh
 ```
 
-2.
-啟動solr
-cd /SRM/SmartKMS/solr-9.7.0/bin
-查看所有最大限制
-ulimit -a
-修改open files
-ulimit -n 65000
-修改 max user processes
-ulimit -u 65000
+2.啟動solr
 
-無法以root啟動需要添加 --force
-./solr start --force
-./solr status
-
-創建core
-./solr create -c core
-./solr restart --force
-
-
+修改solr設定檔
 vim /SRM/SmartKMS/solr-9.7.0/bin/solr.in.sh
 ```
-設定 Solr 的 JAVA 路徑
+# 設定 Solr 的 JAVA 路徑
 SOLR_JAVA_HOME="/SRM/SmartKMS/openjdk/"
 
 # 設定 JVM 最大記憶體使用量 1G
 SOLR_HEAP="1G"
 SOLR_JAVA_MEM="-Xms512m -Xmx1562m"
 
-#default localhost
+# default localhost
 SOLR_HOST="192.168.182.149"
 
 #設定時區
 SOLR_TIMEZONE="Asia\Taipei"
 
-# 設定 Solr 監聽 Port
+# 設定 Solr 監聽 Port default 8983
 SOLR_PORT="8983"
 
-反註解
+# 反註解
 SOLR_OPTS="$SOLR_OPTS -Dlog4j2.formatMsgNoLookups=true"
 
+# 加在最後一行
 export JAVA_HOME="/SRM/SmartKMS/openjdk"
 export PATH=$JAVA_HOME/bin:$PATH
 export SOLR_OPTS="$SOLR_OPTS -Dsolr.allow.unsafe.resourceloading=true"
 ```
 
+查看所有最大限制 (可以略過)
+ulimit -a
+修改open files
+ulimit -n 65000
+修改 max user processes
+ulimit -u 65000
+
+solr因安全性無法以root啟動
+要用root啟動時需要添加 --force
+./solr start --force
+./solr status
+
+創建core
+./solr create -c core
+./solr restart --force
 ##### 3.安裝MariaDB
 
 `yum install mariadb-server.x86_64`
@@ -147,13 +175,12 @@ MariaDB為了提高安全性，默認只監聽127.0.0.1的3306 port 並禁止TCP
 AP1
 `GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.182.149' IDENTIFIED BY 'password' WITH GRANT OPTION;`
 AP1 本機 (mariadb連線用)
-`GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;;`
+`GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;`
 本機
 `GRANT ALL PRIVILEGES ON *.* TO 'root'@'192.168.182.1' IDENTIFIED BY 'password' WITH GRANT OPTION;`
 
 刪除使用者
 `DROP USER'root'@'192.168.182.1';`
-`FLUSH PRIVILEGES;`
 
 保存更改
 `FLUSH PRIVILEGES;`
@@ -169,7 +196,7 @@ vim /SRM/SmartKMS/Server/cfg/ds-config.xml
 > [!error]
 > 試著本機連線
 > mysql -u root -p -h 127.0.0.1 -D skms
-> mariadb也請使用mysql連線
+> mariadb設定檔使用mysql連線
 
 ```
 <ds-config>
@@ -208,7 +235,7 @@ cd /SRM/SmartKMS/Server/cfg/
 原先檔案可以cp到tmp
 vim /SRM/SmartKMS/Server/cfg/license.txt
 ```
-IRxImHsCRQhqym4j8Xn5DKjuAQxU/IPRrWMoDpgOLpZwlvFf6laqKXk1I1G9ZPtIAFoew2tV6Gi8376DlC6v0KXXwNLViTxjkaNM/2bWne0UQhyethjE52A3Y8R4j6jag3y8AKgjYl42dCmH+WuKcBvwm7mRCJYmzqxX3Yest4iB9y4diriVrQ3kj+ylqf8QePqAV3WAQXKMkQE4HNZzu0v+RbXdTyxv9/SbhPVGPsPWPVFt9FsqBMfUPB4I3LWdjGQGm8oNdGuzSaGN/ml5mhM/RB7Hpk90mKD8uDSNvnaQjPxATLFUdOUwHiHCtFUQ3vAB1UQOlY4985lfSC1UfgGUxKx0q09zkK6BOP6bamszJMNH1fWoW2ksIc0dgjaOWzm7M7savS+UpvWfq0FcTLH4rCc98gvnwvKRKvEa0L0=
+dJUeRci1JDnWPivm4HZCS6/wCIYVdtkuZO6V8TCQZsdFpTKE1JHXXtGfQkEpek4VKOE5LNEFXfL11yUEOREUFle4oxFxs2kaah+333bV2GnGWs0qwIkg3DG6Ib90HYoKEogCYdGJ6akZPokqluZ78smwEvtwb2vpiYlDxEyMxBR6bvrJ2hmcwn52Pj0iqXBNXSfDT8uAZxa9RE0jXnzt8BvE0GZQg15ZcvQP9ZR5rVOHRGQTZidggg52sLOmsKcleE15c4YZF0u9dIgjFceLw/RwjVYGINJe42F1lvJX+diFE+kOq9r/3tRnQu94eCgk+FrKqakg/Wy+MaUqZHzv4kdqSHf8kpzCw4pBHBul7NM9n8xXapBLAhBuS2/ZANzWNCUW7MaVmZj3V/3TGebHVCeWfJlzew0Tdyz5oayx0OaDC4gyAkn8T64AHTH27Y9TtukQGA23brye+Qz9RcJqz6dns5YnQfZMKWPIW5lRkuxXAZvYZP5kv8YXMRi44aKY
 ```
 
 log4j fail 創一個新檔案
@@ -221,9 +248,13 @@ log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
 log4j.appender.stdout.layout.ConversionPattern=%-4r [%t] %-5p %c %x - %m%n
 ```
 
-
 安裝mariadb jdbc
 `wget https://dlm.mariadb.com/4174416/Connectors/java/connector-java-3.5.2/mariadb-java-client-3.5.2.jar -P /SRM/SmartKMS/tomcat9/webapps/SmartKMS/WEB-INF/lib`
 
 添加權限
 chmod 755 /SRM -R
+
+執行tomcat跟solr
+cd /SRM/SmartKMS
+./solr-9.7.0/bin/solr start --force
+./tbin/tStartup.sh

@@ -4,6 +4,8 @@
 
 
 ##### 自動推git的方法
+###### 創建git並使用三方套件推送
+
 在需要推git的資料夾有個.obsidian的目錄先用gitgub desktop創建repo 
 ![Pasted image 20250204134531.png](/img/user/img/Pasted%20image%2020250204134531.png)
 載三方套件git之後再載git設定git.exe路徑(git.exe也要填)
@@ -19,6 +21,13 @@ C:/Users/user/Documents/Obsidian/intumit/.git
 ![Pasted image 20250204134620.png](/img/user/img/Pasted%20image%2020250204134620.png)
 最後會多個套件插槽可以直接進行版控  
 設定那邊也有auto commit
+###### git推送失敗時
+![Pasted image 20250220160628.png](/img/user/img/pasted/Pasted%20image%2020250220160628.png)
+
+手動設定你的 Git 使用者名稱和電子郵件
+命令提示字元cmd
+git config --global user.name "sethfu"
+git config --global user.email "chabc.9654@gmail.com"
 
 ##### 建立網站分享筆記
 參考如下
@@ -61,7 +70,6 @@ markdown只能使用css，所以需要插件另外變紅字跟背景高亮黃
 ![Pasted image 20250204140520.png](/img/user/img/Pasted%20image%2020250204140520.png)
 
 ##### Obsidian小技巧
-
 ###### 修改圖片大小方式
 
 輸入要更改的png檔名

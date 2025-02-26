@@ -2,6 +2,14 @@
 {"dg-publish":true,"permalink":"/app/app/"}
 ---
 
+優先安裝RabbitMQ，先確認能否正常running
+參考文字客服安裝
+安裝erlan
+安裝RabbitMQ
+
+安裝更新與必要套件
+執行init.sh
+
 安裝包執行步驟
 a. 將安裝包app-20240311-v23.tgz上傳至 /opt 目錄中
 b. 比對md5
@@ -36,19 +44,23 @@ e. 開始安裝
 	出現以下畫面代表已經連至DB
 	![Pasted image 20250218102312.png](/img/user/img/Pasted%20image%2020250218102312.png)
 
-參考文字客服安裝
-安裝erlan
-安裝RabbitMQ
-dnf install socat
 
+dnf install socat
 安裝Helpdesk4J
 
-![Pasted image 20250218144056.png](/img/user/img/pasted/Pasted%20image%2020250218144056.png)
+![Pasted image 20250220105807.png](/img/user/img/pasted/Pasted%20image%2020250220105807.png)
+
 ![Pasted image 20250218153141.png](/img/user/img/pasted/Pasted%20image%2020250218153141.png)
 
-![Pasted image 20250219151824.png](/img/user/img/pasted/Pasted%20image%2020250219151824.png)
+vim /SRM/helpdesk4j/startup.sh
+確認路徑以及多餘的空白
+![Pasted image 20250220102738.png](/img/user/img/pasted/Pasted%20image%2020250220102738.png)
+
+vim /SRM/helpdesk4j/AppData/cfg/Server.properties
+![Pasted image 20250220101604.png](/img/user/img/pasted/Pasted%20image%2020250220101604.png)
 
 [root@192 helpdesk4j]# chown -R helpdesk:helpdesk /SRM/helpdesk4j/
+
 
 
 

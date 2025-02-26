@@ -15,6 +15,8 @@ tomcat設定
 
 [SmartKMS 9 build 260j.1安裝手冊_20240612.docx - Google 文件](https://docs.google.com/document/d/1M28mVjX1tq1-KhHG0q-LlSj3Nz2yIprj/edit)
 
+![Pasted image 20250221101011.png](/img/user/img/pasted/Pasted%20image%2020250221101011.png)
+
 安裝SmartKMS注意事項
 
 1.tomcat
