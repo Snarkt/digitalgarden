@@ -22,7 +22,7 @@ C:/Users/user/Documents/Obsidian/intumit/.git
 最後會多個套件插槽可以直接進行版控  
 設定那邊也有auto commit
 ###### git推送失敗時
-![Pasted image 20250220160628.png](/img/user/img/pasted/Pasted%20image%2020250220160628.png)
+![Pasted image 20250220160628.png](/img/user/img/Pasted%20image%2020250220160628.png)
 
 手動設定你的 Git 使用者名稱和電子郵件
 命令提示字元cmd
