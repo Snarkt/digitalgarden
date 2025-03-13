@@ -7,7 +7,7 @@
 
 整篇主要參考
 [SmartRobot安裝手順(AP+DB+WEB，含系統參數設定)](http://ikm.intumit.com/SmartKMS/doc/read.action?binderId=84935)   
-![[Pasted image 20250221101808.png\|Pasted image 20250221101808.png]]
+![Pasted image 20250313134826.png](/img/user/img/Pasted%20image%2020250313134826.png)
    
 安裝VMware Workstation 17 (需要註冊，照填台灣地址即可)   
 跟繁體包 (預設有簡中)
