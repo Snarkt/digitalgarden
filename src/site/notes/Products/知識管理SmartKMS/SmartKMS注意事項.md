@@ -3,6 +3,12 @@
 ---
 
 
+Windows 10 ISO 下載
+    進入 微軟官網，開啟 開發人員工具（F12）
+    切換裝置模擬為 Surface Duo 100%
+    不要開啟 VPN，下載適合的 64-bit 或 32-bit 版本
+    簡易安裝 W269N-WFGWX-YVC9B-4J6C9-T83GX
+
 此篇使用smartkms-258.7 smartkms-260
 
 教育訓練說明
@@ -17,7 +23,7 @@ tomcat設定
 
 [SmartKMS 9 build 260j.1安裝手冊_20240612.docx - Google 雲端硬碟](https://drive.google.com/file/d/1WwT3UIKg4qrACxH0v5Kci1TruVtWIsot/view)
 
-![[Pasted image 20250221101011.png\|Pasted image 20250221101011.png]]
+![Pasted image 20250221101011.png](/img/user/img/Pasted%20image%2020250221101011.png)
 
 安裝SmartKMS注意事項
 
@@ -45,7 +51,7 @@ tomcat設定
 `solr.cmd stop -all`
 
 用指令直接執行
-`solr solr.cmd start -m 1G -f -s C:\\SmartKMS\\Solr -p 8983`
+`solr solr.cmd start -m 1G -f -s C:\SmartKMS\Solr -p 8983`
 ![Pasted image 20250203121810.png](/img/user/img/Pasted%20image%2020250203121810.png)
 
 3.mariadb語法 路徑 C:\Program Files\MariaDB 10.5\bin 下cmd
@@ -61,7 +67,6 @@ mysql -u root -p skms < C:\SmartKMS\dbs\MariaDB\skms.sql
 #顯示資料表結構語法
 describe skms.propertytype;
 ```
-``
 
 windows cmd裡下
 
