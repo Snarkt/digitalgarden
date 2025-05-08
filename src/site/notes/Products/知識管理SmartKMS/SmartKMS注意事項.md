@@ -14,7 +14,7 @@ Windows 10 ISO 下載
 教育訓練說明
 
 license每個客戶都不一定
-kms安控是用?
+kms安控是用使用者
 uuid第一次啟動會產生，跟使用者登入有關係，不能隨意換
 int.pw預設帳號隨機產生，本機設定 
 tomcat設定
@@ -85,6 +85,12 @@ C:\Program Files (x86)\Eclipse Adoptium
 jar檔更換
 2.7.12 > mariadb-java-client-3.5.1.jar 
 C:\Tomcat9.0\webapps\SmartKMS\WEB-INF\lib
+
+---
+關閉Tomcat有可能會沒有成功，需要另外停掉java.exe
+![Pasted image 20250306170821.png](/img/user/img/pasted/Pasted%20image%2020250306170821.png)
+
+---
 
 5.258.7版本資料庫修改 (升級到260首頁、專家都不會有驚嘆號問題)
 
