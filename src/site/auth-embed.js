@@ -1,3 +1,5 @@
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
 document.addEventListener("DOMContentLoaded", () => {
   const identity = window.netlifyIdentity;
   if (!identity) {
@@ -9,41 +11,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
-  if (!gate || !loginBtn || !logoutBtn) {
-    console.error("缺少必要的 UI 元件");
-    return;
-  }
-
-  // 取得 URL 中的 invite token 與 recovery token
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.hash.slice(1));
   const inviteToken = params.get("invite_token");
-  const recoveryToken = params.get("recovery_token") || params.get("token");
+  const recoveryToken = params.get("recovery_token");
 
-  // 初始化身份驗證狀態前，綁定事件
   identity.on("init", user => {
     const isLoggedIn = !!user;
     gate.style.display = isLoggedIn ? "block" : "none";
     loginBtn.style.display = isLoggedIn ? "none" : "inline-block";
     logoutBtn.style.display = isLoggedIn ? "inline-block" : "none";
-
-    // ✅ 初始化完成後再處理 Token
-    if (inviteToken) {
-      identity
-        .completeSignup(inviteToken)
-        .then(user => {
-          console.log("完成邀請註冊：", user);
-          identity.open("login"); // 顯示登入畫面
-        })
-        .catch(err => {
-          console.error("邀請註冊失敗", err);
-          alert("邀請連結無效或已過期，請聯絡管理員重新邀請。");
-        });
-    }
-
-    if (recoveryToken) {
-      identity.open("recover");
-      identity.recover(recoveryToken); // ✅ 正確觸發密碼重設
-    }
   });
 
   identity.on("login", () => {
@@ -62,6 +38,30 @@ document.addEventListener("DOMContentLoaded", () => {
   loginBtn.addEventListener("click", () => identity.open());
   logoutBtn.addEventListener("click", () => identity.logout());
 
-  // ✅ 最後執行初始化
+  // 初始化身份驗證元件
   identity.init();
+
+  // 外部 token 邏輯延後觸發，避免 race condition
+  setTimeout(() => {
+    if (inviteToken) {
+      identity.completeSignup(inviteToken)
+        .then(user => {
+          console.log("邀請成功：", user);
+          identity.open("login");
+        })
+        .catch(err => {
+          console.error("邀請錯誤", err);
+          alert("邀請失效，請聯繫管理員");
+        });
+    }
+
+    if (recoveryToken) {
+      identity.open("recover");
+      identity.recover(recoveryToken).catch(err => {
+        console.error("密碼重設錯誤", err);
+        alert("密碼重設連結可能已失效");
+      });
+    }
+  }, 500);
 });
+</script>
