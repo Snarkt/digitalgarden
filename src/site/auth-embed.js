@@ -28,12 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
       identity.completeSignup(inviteToken)
         .then(user => {
           console.log("邀請註冊完成:", user);
-          identity.open("login"); // 跳登入畫面
         })
         .catch(err => {
           console.error("邀請失敗:", err);
           alert("邀請連結無效或已過期，請聯絡管理員。");
-          identity.open("login");
         });
     } else if (recoveryToken) {
       // 跳到重設密碼頁面並執行 recover
@@ -45,11 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(err => {
           console.error("密碼重設失敗:", err);
           alert("密碼重設連結無效或已過期，請重新申請。");
-          identity.open("login");
         });
-    } else {
-      // 沒有 token 就正常顯示登入頁
-      identity.open("login");
     }
   });
 
