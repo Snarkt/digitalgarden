@@ -97,6 +97,9 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.setLiquidOptions({
     dynamicPartials: true,
   });
+  eleventyConfig.addPassthroughCopy({
+    "src/site/auth-embed.js": "auth-embed.js"
+  });
   let markdownLib = markdownIt({
     breaks: true,
     html: true,
@@ -571,16 +574,5 @@ module.exports = function (eleventyConfig) {
     htmlTemplateEngine: "njk",
     markdownTemplateEngine: false,
     passthroughFileCopy: true,
-  };
-  module.exports = function (eleventyConfig) {
-  // 👇 這行是重點！
-  eleventyConfig.addPassthroughCopy({ "src/site/auth-embed.js": "auth-embed.js" });
-  return {
-    dir: {
-      input: "src/site",
-      output: "dist",
-      data: "_data",
-      }
-    };
   };
 };
