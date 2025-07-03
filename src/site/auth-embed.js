@@ -33,7 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
           console.error("邀請失敗:", err);
           alert("邀請連結無效或已過期，請聯絡管理員。");
         });
-    } else if (recoveryToken) {
+    } 
+    if (recoveryToken) {
       // 跳到重設密碼頁面並執行 recover
       identity.open("recover");
       identity.recover(recoveryToken)
