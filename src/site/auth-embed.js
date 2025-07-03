@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <title>登入頁面</title>
   <style>
-    #auth-gate {
-      display: none;
+    body {
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
     }
     .login-form {
       max-width: 300px;
@@ -13,8 +15,6 @@
       padding: 20px;
       background: #222;
       border-radius: 8px;
-      color: white;
-      font-family: Arial, sans-serif;
     }
     .login-form label {
       display: block;
@@ -41,71 +41,85 @@
     .login-form button:hover {
       background: #45a049;
     }
+    #auth-gate {
+      display: none;
+      text-align: center;
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
-
-<div id="auth-gate">
-  <p>歡迎登入！您已成功登入。</p>
-</div>
-
-<div class="login-form" id="login-form">
-  <h2>登入</h2>
-  <label for="email">電子郵件</label>
-  <input type="email" id="email" required />
-  
-  <label for="password">密碼</label>
-  <input type="password" id="password" required />
-  
-  <button id="login-btn">登入</button>
-  <p id="login-error" style="color: red; display:none;"></p>
-</div>
 
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 
 <script>
 (async () => {
-  const { createIcons, icons } = await import("https://cdn.jsdelivr.net/npm/lucide@0.525.0/+esm");
-  
-  createIcons({
-    icons,
-    attrs: { class: ["svg-icon"] }
-  });
+  // 建立登入區塊
+  const body = document.body;
+
+  const authGate = document.createElement("div");
+  authGate.id = "auth-gate";
+  authGate.innerHTML = `
+    <p>歡迎登入！您已成功登入。</p>
+  `;
+
+  const loginForm = document.createElement("div");
+  loginForm.className = "login-form";
+  loginForm.id = "login-form";
+  loginForm.innerHTML = `
+    <h2>登入</h2>
+    <label for="email">電子郵件</label>
+    <input type="email" id="email" required />
+    <label for="password">密碼</label>
+    <input type="password" id="password" required />
+    <button id="login-btn">登入</button>
+    <p id="login-error" style="color: red; display: none;"></p>
+  `;
+
+  body.appendChild(authGate);
+  body.appendChild(loginForm);
+
+  // lucide icon (非必要可移除)
+  try {
+    const { createIcons, icons } = await import("https://cdn.jsdelivr.net/npm/lucide@0.525.0/+esm");
+    createIcons({ icons, attrs: { class: ["svg-icon"] } });
+  } catch (e) {
+    console.warn("lucide 載入失敗，可忽略", e);
+  }
 
   const identity = window.netlifyIdentity;
-  const gate = document.getElementById("auth-gate");
-  const loginForm = document.getElementById("login-form");
   const loginBtn = document.getElementById("login-btn");
   const loginError = document.getElementById("login-error");
 
-  if (!identity || !gate || !loginForm) return;
+  if (!identity) {
+    console.error("Netlify Identity 未正確載入");
+    return;
+  }
 
-  // 初始化 identity，判斷是否已登入
   identity.on("init", (user) => {
     if (user) {
-      gate.style.display = "block";
+      authGate.style.display = "block";
       loginForm.style.display = "none";
     } else {
-      gate.style.display = "none";
+      authGate.style.display = "none";
       loginForm.style.display = "block";
     }
   });
 
   identity.on("login", () => {
-    gate.style.display = "block";
+    authGate.style.display = "block";
     loginForm.style.display = "none";
     loginError.style.display = "none";
     identity.close();
   });
 
   identity.on("logout", () => {
-    gate.style.display = "none";
+    authGate.style.display = "none";
     loginForm.style.display = "block";
   });
 
   identity.init();
 
-  // 登入按鈕事件
   loginBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     loginError.style.display = "none";
@@ -121,7 +135,6 @@
 
     try {
       await identity.login(email, password);
-      // 成功登入事件已由 identity.on("login") 處理
     } catch (err) {
       loginError.textContent = "登入失敗，請確認帳號密碼";
       loginError.style.display = "block";
