@@ -1,4 +1,3 @@
-// digitalgarden/src/site/auth-embed.js
 document.addEventListener("DOMContentLoaded", () => {
   const identity = window.netlifyIdentity;
   if (!identity) {
@@ -13,6 +12,17 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!gate || !loginBtn || !logoutBtn) {
     console.error("缺少 #auth-gate 或登入/登出按鈕");
     return;
+  }
+
+  // 先處理 reset password token，優先執行
+  const params = new URLSearchParams(window.location.hash.replace(/^#/, "?")); 
+  // Netlify Identity reset token 是放 hash (#) 裡，轉成查詢字串方便用
+  const token = params.get("recovery_token") || params.get("token");
+  if (token) {
+    identity.open("login");
+    identity.on("init", () => {
+      identity.recover(token);
+    });
   }
 
   // 初始化回呼：判斷是否已登入
