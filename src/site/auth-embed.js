@@ -8,33 +8,32 @@ document.addEventListener("DOMContentLoaded", () => {
   const gate = document.getElementById("auth-gate");
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
+  const resetBtn = document.getElementById("reset-btn");
 
-  if (!gate || !loginBtn || !logoutBtn) {
-    console.error("缺少 #auth-gate 或登入/登出按鈕");
+  if (!gate || !loginBtn || !logoutBtn || !resetBtn) {
+    console.error("缺少 #auth-gate 或登入/登出/重設按鈕");
     return;
   }
 
-  // 解析 URL 參數，包含 invite_token、recovery_token（密碼重設用）
+  // 解析 URL 參數
   const params = new URLSearchParams(window.location.search);
   const inviteToken = params.get("invite_token");
   const recoveryToken = params.get("recovery_token") || params.get("token");
 
+  // 初始化登入狀態處理
   identity.on("init", user => {
-    if (user) {
-      gate.style.display = "block";
-      loginBtn.style.display = "none";
-      logoutBtn.style.display = "inline-block";
-    } else {
-      gate.style.display = "none";
-      loginBtn.style.display = "inline-block";
-      logoutBtn.style.display = "none";
-    }
+    const isLoggedIn = !!user;
+    gate.style.display = isLoggedIn ? "block" : "none";
+    loginBtn.style.display = isLoggedIn ? "none" : "inline-block";
+    logoutBtn.style.display = isLoggedIn ? "inline-block" : "none";
+    resetBtn.style.display = isLoggedIn ? "none" : "inline-block";
   });
 
   identity.on("login", () => {
     gate.style.display = "block";
     loginBtn.style.display = "none";
     logoutBtn.style.display = "inline-block";
+    resetBtn.style.display = "none";
     identity.close();
   });
 
@@ -42,19 +41,23 @@ document.addEventListener("DOMContentLoaded", () => {
     gate.style.display = "none";
     loginBtn.style.display = "inline-block";
     logoutBtn.style.display = "none";
+    resetBtn.style.display = "inline-block";
   });
 
+  // 按鈕綁定事件
   loginBtn.addEventListener("click", () => identity.open());
   logoutBtn.addEventListener("click", () => identity.logout());
+  resetBtn.addEventListener("click", () => identity.open("recover"));
 
+  // 初始化身份驗證
   identity.init();
 
-  // 處理 invite_token，完成註冊
+  // invite token 註冊完成流程
   if (inviteToken) {
     identity.completeSignup(inviteToken)
       .then(user => {
         console.log("完成註冊，使用者：", user);
-        identity.open();  // 完成註冊後打開登入視窗
+        identity.open();  // 可改為 identity.open("login") 明確顯示登入視窗
       })
       .catch(err => {
         console.error("註冊完成失敗", err);
@@ -62,15 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // 處理重設密碼 token，打開 recover 視窗並呼叫 recover 方法
+  // recovery token 密碼重設流程
   if (recoveryToken) {
     identity.open("recover");
     identity.on("init", () => {
-      identity.recover(recoveryToken)
-        .catch(err => {
-          console.error("密碼重設失敗", err);
-          alert("重設密碼連結無效或已過期，請重新申請重設。");
-        });
+      identity.recover(recoveryToken);
     });
   }
 });
