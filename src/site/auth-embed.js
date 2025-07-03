@@ -39,14 +39,19 @@ document.addEventListener("DOMContentLoaded", () => {
   identity.init();
 
   setTimeout(() => {
-    const token = inviteToken || recoveryToken; // 取其中一個token來用
+    const token = inviteToken || recoveryToken;
 
     if (token) {
-      identity.open("recover");  // 開啟重設密碼視窗
-      identity.recover(token).catch(err => {
-        console.error("密碼重設失敗：", err);
-        alert("密碼重設連結可能已失效，請重新申請。");
-      });
+      identity.open("recover");
+      identity.recover(token)
+        .then(() => {
+          // 密碼重設成功後，切換到登入畫面
+          identity.open("login");
+        })
+        .catch(err => {
+          console.error("密碼重設失敗：", err);
+          alert("密碼重設連結可能已失效，請重新申請。");
+        });
     }
   }, 500);
 });
