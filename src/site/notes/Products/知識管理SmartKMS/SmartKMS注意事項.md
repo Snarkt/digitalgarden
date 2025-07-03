@@ -23,7 +23,7 @@ tomcat設定
 
 [SmartKMS 9 build 260j.1安裝手冊_20240612.docx - Google 雲端硬碟](https://drive.google.com/file/d/1WwT3UIKg4qrACxH0v5Kci1TruVtWIsot/view)
 
-![Pasted image 20250221101011.png](/img/user/img/Pasted%20image%2020250221101011.png)
+![Pasted image 20250221101011.png](/img/user/Assets/Img/Pasted%20image%2020250221101011.png)
 
 安裝SmartKMS注意事項
 
@@ -42,7 +42,7 @@ tomcat設定
 -XX:+UseCompressedOops #這段用了會無法啟動tomcat
 -XX:+DisableExplicitGC
 ```
-![Pasted image 20250203121738.png](/img/user/img/Pasted%20image%2020250203121738.png)
+![Pasted image 20250203121738.png](/img/user/Assets/Img/Pasted%20image%2020250203121738.png)
 
 2.用指令開啟solr solr網頁一直開不了最後是用solr9.7.0 網站 [http://127.0.0.1:8983/solr](http://127.0.0.1:8983/solr)
 
@@ -52,7 +52,7 @@ tomcat設定
 
 用指令直接執行
 `solr solr.cmd start -m 1G -f -s C:\SmartKMS\Solr -p 8983`
-![Pasted image 20250203121810.png](/img/user/img/Pasted%20image%2020250203121810.png)
+![Pasted image 20250203121810.png](/img/user/Assets/Img/Pasted%20image%2020250203121810.png)
 
 3.mariadb語法 路徑 C:\Program Files\MariaDB 10.5\bin 下cmd
 ```
@@ -88,7 +88,7 @@ C:\Tomcat9.0\webapps\SmartKMS\WEB-INF\lib
 
 ---
 關閉Tomcat有可能會沒有成功，需要另外停掉java.exe
-![Pasted image 20250306170821.png](/img/user/img/pasted/Pasted%20image%2020250306170821.png)
+![Pasted image 20250306170821.png](/img/user/Assets/Img/Pasted/Pasted%20image%2020250306170821.png)
 
 ---
 

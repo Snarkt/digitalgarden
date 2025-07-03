@@ -102,20 +102,20 @@ Check_is_support_OS() {
 
 修改完installer.sh後正常安裝
 Stage 1~3
-![Pasted image 20250212143911.png](/img/user/img/Pasted%20image%2020250212143911.png)
+![Pasted image 20250212143911.png](/img/user/Assets/Img/Pasted%20image%2020250212143911.png)
 
 Stage 4、5
-![Pasted image 20250212143929.png](/img/user/img/Pasted%20image%2020250212143929.png)
+![Pasted image 20250212143929.png](/img/user/Assets/Img/Pasted%20image%2020250212143929.png)
 
 Stage 6
-![Pasted image 20250212145102.png](/img/user/img/Pasted%20image%2020250212145102.png)
+![Pasted image 20250212145102.png](/img/user/Assets/Img/Pasted%20image%2020250212145102.png)
 
 Stage 7
 Docker Compose (`docker-compose.yml`) 版本 1.27 以後`version` 屬性可以去除掉，並且 Docker Compose 會忽略它。 (不影響就保留起來)
-![Pasted image 20250212144845.png](/img/user/img/Pasted%20image%2020250212144845.png)
+![Pasted image 20250212144845.png](/img/user/Assets/Img/Pasted%20image%2020250212144845.png)
 
 Stage 8
-![Pasted image 20250212145223.png](/img/user/img/Pasted%20image%2020250212145223.png)
+![Pasted image 20250212145223.png](/img/user/Assets/Img/Pasted%20image%2020250212145223.png)
 
 yaml位置
 /SRM/PVC/poc-ap1/docker-compose.yml
@@ -123,13 +123,13 @@ yaml位置
 cd /SRM/PVC/poc-ap1/
 docker --version
 docker compose version
-![Pasted image 20250212160503.png](/img/user/img/Pasted%20image%2020250212160503.png)
+![Pasted image 20250212160503.png](/img/user/Assets/Img/Pasted%20image%2020250212160503.png)
 
 docker compose up -d
-![Pasted image 20250212160622.png](/img/user/img/Pasted%20image%2020250212160622.png)
+![Pasted image 20250212160622.png](/img/user/Assets/Img/Pasted%20image%2020250212160622.png)
 
 docker ps -a
-![Pasted image 20250212161019.png](/img/user/img/Pasted%20image%2020250212161019.png)
+![Pasted image 20250212161019.png](/img/user/Assets/Img/Pasted%20image%2020250212161019.png)
 
 ##### poc-db1-mariadb
 
@@ -169,11 +169,11 @@ vi /etc/my.cnf
 skip-grant-tables
 ```
 
-![Pasted image 20250212170952.png](/img/user/img/Pasted%20image%2020250212170952.png)
+![Pasted image 20250212170952.png](/img/user/Assets/Img/Pasted%20image%2020250212170952.png)
 
 重新啟動即可連結到mariadb
 docker restart poc-db1-mariadb
-![Pasted image 20250212174645.png](/img/user/img/Pasted%20image%2020250212174645.png)
+![Pasted image 20250212174645.png](/img/user/Assets/Img/Pasted%20image%2020250212174645.png)
 
 無法使用mysql
 apk update
@@ -202,7 +202,7 @@ Alpine是極小的docker images os
 ###### nginx proxy_pass
 `vim /etc/nginx/conf.d/https_location_conf/location-https_SmartRobot_AP`
 
-![Pasted image 20250213111642.png](/img/user/img/Pasted%20image%2020250213111642.png)
+![Pasted image 20250213111642.png](/img/user/Assets/Img/Pasted%20image%2020250213111642.png)
 > [!tip] 
 在Linux查看Windows創建的文本時會出現^M
 解決方式
@@ -213,9 +213,9 @@ Alpine是極小的docker images os
 `vim 01-server_https.conf`
 
 `include /etc/nginx/conf.d/https_location_conf/location-https_SmartRobot_AP;`
-![Pasted image 20250213154852.png](/img/user/img/Pasted%20image%2020250213154852.png)
+![Pasted image 20250213154852.png](/img/user/Assets/Img/Pasted%20image%2020250213154852.png)
 
-![Pasted image 20250213113339.png](/img/user/img/Pasted%20image%2020250213113339.png)
+![Pasted image 20250213113339.png](/img/user/Assets/Img/Pasted%20image%2020250213113339.png)
 1. `listen 443 ssl;`
 2. `listen [::]:443 ssl;`
 	這行配置是用來啟用 IPv6 上的 HTTPS。[::] 是 IPv6 的通配符地址，代表接受所有來自 IPv6 地址的連線
@@ -229,18 +229,18 @@ Alpine是極小的docker images os
 ###### 04設定https通用安全性檔案
 `vim 04-server_common_https_settings`
 
-![Pasted image 20250213140355.png](/img/user/img/Pasted%20image%2020250213140355.png)
+![Pasted image 20250213140355.png](/img/user/Assets/Img/Pasted%20image%2020250213140355.png)
 SSL安全設定
-![Pasted image 20250213142103.png](/img/user/img/Pasted%20image%2020250213142103.png)
+![Pasted image 20250213142103.png](/img/user/Assets/Img/Pasted%20image%2020250213142103.png)
 proxy快取設定
-![Pasted image 20250213142150.png](/img/user/img/Pasted%20image%2020250213142150.png)
+![Pasted image 20250213142150.png](/img/user/Assets/Img/Pasted%20image%2020250213142150.png)
 
 安全性HTTP headers
-![Pasted image 20250213142321.png](/img/user/img/Pasted%20image%2020250213142321.png)
-![Pasted image 20250213142409.png](/img/user/img/Pasted%20image%2020250213142409.png)
+![Pasted image 20250213142321.png](/img/user/Assets/Img/Pasted%20image%2020250213142321.png)
+![Pasted image 20250213142409.png](/img/user/Assets/Img/Pasted%20image%2020250213142409.png)
 
 特殊漏洞安全性區塊
-![Pasted image 20250213143840.png](/img/user/img/Pasted%20image%2020250213143840.png)
+![Pasted image 20250213143840.png](/img/user/Assets/Img/Pasted%20image%2020250213143840.png)
 $websocket_same_origin_policy
 WebSocket 可以跨來源（不同的域名、協議或端口）建立連接，這樣有時會帶來安全風險，所以這邊有設定限制
 
@@ -249,14 +249,14 @@ WebSocket 可以跨來源（不同的域名、協議或端口）建立連接，�
 ###### 05設定location 自訂 error 頁面
 `vim 05-location_custom_error_page`
 
-![Pasted image 20250213152757.png](/img/user/img/Pasted%20image%2020250213152757.png)
+![Pasted image 20250213152757.png](/img/user/Assets/Img/Pasted%20image%2020250213152757.png)
 
 ###### 02設定http沒有憑證 (主要連結頁 >03、05)
 `vim 02-server_http.conf.disabled`
 
 `include /etc/nginx/conf.d/http_location_conf/location-http_SmartRobot_AP;`
-![Pasted image 20250213154938.png](/img/user/img/Pasted%20image%2020250213154938.png)
-![Pasted image 20250213155039.png](/img/user/img/Pasted%20image%2020250213155039.png)
+![Pasted image 20250213154938.png](/img/user/Assets/Img/Pasted%20image%2020250213154938.png)
+![Pasted image 20250213155039.png](/img/user/Assets/Img/Pasted%20image%2020250213155039.png)
 ###### 03設定http通用安全性檔案 (設定同04)
 
 ##### poc-ap1-smartrobot
@@ -275,16 +275,16 @@ https://192.168.182.144/wise/wiseadm/
 [SmartRobot AOAI 設定重點.docx - Google 雲端硬碟](https://drive.google.com/file/d/146PkqWxk3PGhh2FA23A7Hkb8TD4Aa-lH/view)
 登入AOAI的帳密需要到
 權限管理>其他>重製管理密碼
-![Pasted image 20250217102405.png](/img/user/img/Pasted%20image%2020250217102405.png)
+![Pasted image 20250217102405.png](/img/user/Assets/Img/Pasted%20image%2020250217102405.png)
 
 最後在登入右鍵新分頁 (建議用新瀏覽器)
 admin
 S&"k.fcG
-![Pasted image 20250217104451.png](/img/user/img/Pasted%20image%2020250217104451.png)
+![Pasted image 20250217104451.png](/img/user/Assets/Img/Pasted%20image%2020250217104451.png)
 
 一般用戶前台還是相同的地方
 右鍵複製連結開啟分新頁
-![Pasted image 20250217110036.png](/img/user/img/Pasted%20image%2020250217110036.png)
+![Pasted image 20250217110036.png](/img/user/Assets/Img/Pasted%20image%2020250217110036.png)
 
 沒有文客只會顯示選項1
-![Pasted image 20250217111349.png](/img/user/img/Pasted%20image%2020250217111349.png)
+![Pasted image 20250217111349.png](/img/user/Assets/Img/Pasted%20image%2020250217111349.png)

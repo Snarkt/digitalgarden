@@ -5,7 +5,7 @@
 
 此篇使用 smartkms-build-251_5d76c74
 
-![Pasted image 20250225122737.png](/img/user/img/Pasted%20image%2020250225122737.png)
+![Pasted image 20250225122737.png](/img/user/Assets/Img/Pasted%20image%2020250225122737.png)
 
 安裝SmartKMS注意事項
 
@@ -16,7 +16,7 @@
 
 `SELINUX=disabled`
 `systemctl disable firewalld.service`
-![Pasted image_u.png](/img/user/img/Pasted%20image_u.png)
+![Pasted image_u.png](/img/user/Assets/Img/Pasted%20image_u.png)
 重新啟動，ssh會需要重連
 `reboot`
 
@@ -25,7 +25,7 @@ mkdir /SRM
 cd /SRM
 unzip smartkms-build-251_5d76c74-bin.zip
 mv smartkms-build-251_5d76c74 SmartKMS
-![Pasted image 20250226154625.png](/img/user/img/Pasted%20image%2020250226154625.png)
+![Pasted image 20250226154625.png](/img/user/Assets/Img/Pasted%20image%2020250226154625.png)
 將jdk1.8、jdk11、tbin、solr-9.7.0.tgz、tomcat9.zip 解壓到SmartKMS內
 
 mv SmartKMS.war Solr.war tomcat9/webapps/
@@ -180,13 +180,14 @@ set password=PASSWORD('password')
 MariaDB為了提高安全性，默認只監聽127.0.0.1的3306 port 並禁止TCP連線
 `select user,host from mysql.user;`
 查看Host為localhost
-![Pasted image_d.png](/img/user/img/Pasted%20image_d.png)
+![Pasted image_d.png](/img/user/Assets/Img/Pasted%20image_d.png)
 [為 MariaDB 配置遠端存取權限](https://blog.csdn.net/lanuage/article/details/78846766)
 %代表所有IP，password表示將用這個密碼登入root用戶
 
 > [!tip]
 > `*.*` 記得別漏掉，markdown **是斜體
 
+任何連線
 `GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'password' WITH GRANT OPTION;`
 
 指定IP連線
@@ -205,7 +206,7 @@ AP1 本機 (mariadb連線用)
 
 `select user,host from mysql.user;`
 `exit`
-![Pasted image_z.png](/img/user/img/Pasted%20image_z.png)
+![Pasted image_z.png](/img/user/Assets/Img/Pasted%20image_z.png)
 
 資料庫設定
 SmartKMS 9連接資料庫的設定檔

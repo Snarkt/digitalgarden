@@ -38,7 +38,7 @@ server {
 %JDK%\bin\目錄下，使用 keytool將先前skms產的憑證.jks轉.p12   
 -srcalias 為先前創建的別名，可以去掉   
 `keytool -importkeystore -srckeystore C:\key\mykeystore.jks -destkeystore C:\key\mykeystore.p12 -srcalias skmstest`   
-![Pasted image_v.png](/img/user/img/Pasted%20image_v.png)
+![Pasted image_v.png](/img/user/Assets/Img/Pasted%20image_v.png)
    
 [p12证书转pem、cert、key_p12转pem-CSDN博客](https://blog.csdn.net/weixin_45191791/article/details/136226823)   
 再來用openssl將p12拆成key與crt   
@@ -47,5 +47,5 @@ server {
 轉key   
 `openssl pkcs12 -in mykeystore.p12 -nocerts -nodes -out mykey.key`   
    
-![Pasted image_9.png](/img/user/img/Pasted%20image_9.png)    
+![Pasted image_9.png](/img/user/Assets/Img/Pasted%20image_9.png)    
   
