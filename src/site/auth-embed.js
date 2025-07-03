@@ -1,9 +1,12 @@
 (async () => {
-  // 動態載入 Lucide ESM 模組
   const { createIcons, icons } = await import("https://cdn.jsdelivr.net/npm/lucide@0.525.0/+esm");
-  createIcons({ icons });
+  
+  createIcons({
+    icons,
+    attrs: { class: ["svg-icon"] }
+  });
 
-  // Netlify Identity 初始化與事件綁定
+  // 下面是你的 Netlify Identity 初始化
   const identity = window.netlifyIdentity;
   const gate = document.getElementById("auth-gate");
   if (!identity || !gate) return;
