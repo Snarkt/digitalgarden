@@ -2,23 +2,24 @@ document.addEventListener("DOMContentLoaded", function () {
   const identity = window.netlifyIdentity;
 
   const gate = document.getElementById("auth-gate");
+  if (!identity || !gate) return; // 防呆：必要物件不存在就跳過
 
   identity.on("init", (user) => {
     if (!user) {
-      identity.open();
+      identity.open(); // 未登入自動開啟登入視窗
     } else {
-      if (gate) gate.style.display = "block";
+      gate.style.display = "block";
     }
   });
 
   identity.on("login", () => {
-    if (gate) gate.style.display = "block";
-    identity.close();
+    gate.style.display = "block";
+    identity.close(); // 登入後自動關閉
   });
 
   identity.on("logout", () => {
-    if (gate) gate.style.display = "none";
+    gate.style.display = "none";
   });
 
-  identity.init();
+  identity.init(); // 初始化 Netlify Identity
 });
