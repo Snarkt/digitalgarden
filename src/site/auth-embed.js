@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const gate = document.getElementById("auth-gate");
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
-  const resetBtn = document.getElementById("reset-btn");
+  //const resetBtn = document.getElementById("reset-btn");
 
   if (!gate || !loginBtn || !logoutBtn) {
     console.error("缺少 #auth-gate 或登入/登出按鈕");
