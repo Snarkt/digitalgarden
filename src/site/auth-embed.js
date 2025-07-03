@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const logoutBtn = document.getElementById("logout-btn");
   const resetBtn = document.getElementById("reset-btn");
 
-  if (!gate || !loginBtn || !logoutBtn || !resetBtn) {
-    console.error("缺少 #auth-gate 或登入/登出/重設按鈕");
+  if (!gate || !loginBtn || !logoutBtn) {
+    console.error("缺少 #auth-gate 或登入/登出按鈕");
     return;
   }
 
