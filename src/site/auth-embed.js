@@ -1,5 +1,3 @@
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
 document.addEventListener("DOMContentLoaded", () => {
   const identity = window.netlifyIdentity;
   if (!identity) {
@@ -67,4 +65,3 @@ document.addEventListener("DOMContentLoaded", () => {
   // ✅ 最後執行初始化
   identity.init();
 });
-</script>
