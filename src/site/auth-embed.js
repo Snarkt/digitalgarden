@@ -8,33 +8,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const gate = document.getElementById("auth-gate");
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
+  const resetBtn = document.getElementById("reset-btn");
 
-  if (!gate || !loginBtn || !logoutBtn) {
-    console.error("缺少 #auth-gate 或登入/登出按鈕");
+  if (!gate || !loginBtn || !logoutBtn || !resetBtn) {
+    console.error("缺少 #auth-gate 或登入/登出/重設按鈕");
     return;
   }
 
-  // 先處理 reset password token，優先執行
-  const params = new URLSearchParams(window.location.hash.replace(/^#/, "?")); 
-  // Netlify Identity reset token 是放 hash (#) 裡，轉成查詢字串方便用
+  // 讀取 URL hash 裡的 token
+  const params = new URLSearchParams(window.location.hash.replace(/^#/, "?"));
   const token = params.get("recovery_token") || params.get("token");
-  if (token) {
-    identity.open("login");
-    identity.on("init", () => {
-      identity.recover(token);
-    });
-  }
 
-  // 初始化回呼：判斷是否已登入
   identity.on("init", user => {
     if (user) {
       gate.style.display = "block";
       loginBtn.style.display = "none";
       logoutBtn.style.display = "inline-block";
+      resetBtn.style.display = "none";
     } else {
       gate.style.display = "none";
       loginBtn.style.display = "inline-block";
       logoutBtn.style.display = "none";
+      resetBtn.style.display = "inline-block";
     }
   });
 
@@ -42,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gate.style.display = "block";
     loginBtn.style.display = "none";
     logoutBtn.style.display = "inline-block";
+    resetBtn.style.display = "none";
     identity.close();
   });
 
@@ -49,12 +45,20 @@ document.addEventListener("DOMContentLoaded", () => {
     gate.style.display = "none";
     loginBtn.style.display = "inline-block";
     logoutBtn.style.display = "none";
+    resetBtn.style.display = "inline-block";
   });
 
-  // 點擊登入按鈕開啟視窗
   loginBtn.addEventListener("click", () => identity.open());
-  // 點擊登出按鈕登出
   logoutBtn.addEventListener("click", () => identity.logout());
+  resetBtn.addEventListener("click", () => identity.open("recover"));
 
   identity.init();
+
+  // 如果有 token，打開重設密碼視窗並帶入 token
+  if (token) {
+    identity.open("recover");
+    identity.on("init", () => {
+      identity.recover(token);
+    });
+  }
 });
