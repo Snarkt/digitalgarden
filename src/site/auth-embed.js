@@ -1,22 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
   const identity = window.netlifyIdentity;
 
+  const gate = document.getElementById("auth-gate");
+
   identity.on("init", (user) => {
     if (!user) {
-      identity.open(); // ⬅️ 直接打開登入視窗
+      identity.open();
     } else {
-      document.getElementById("auth-gate").style.display = "block";
+      if (gate) gate.style.display = "block";
     }
   });
 
   identity.on("login", () => {
-    document.getElementById("auth-gate").style.display = "block";
-    identity.close(); // 關閉登入視窗
+    if (gate) gate.style.display = "block";
+    identity.close();
   });
 
   identity.on("logout", () => {
-    document.getElementById("auth-gate").style.display = "none";
+    if (gate) gate.style.display = "none";
   });
 
-  identity.init(); // ⬅️ 初始化 SDK
+  identity.init();
 });
