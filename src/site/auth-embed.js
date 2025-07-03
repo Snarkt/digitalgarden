@@ -9,9 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
-  // 先從 query string 取，沒的話再從 hash 取
+  console.log("query string:", window.location.search);
+  console.log("hash:", window.location.hash);
+
   const queryParams = new URLSearchParams(window.location.search);
   const hashParams = new URLSearchParams(window.location.hash.slice(1));
+
+  console.log("inviteToken query:", queryParams.get("invite_token"));
+  console.log("inviteToken hash:", hashParams.get("invite_token"));
 
   const inviteToken =
     queryParams.get("invite_token") || hashParams.get("invite_token");
@@ -32,9 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showUI(user);
 
     if (inviteToken) {
-      // 處理邀請註冊流程
-      identity
-        .completeSignup(inviteToken)
+      identity.completeSignup(inviteToken)
         .then(user => {
           console.log("邀請註冊完成:", user);
           identity.open("login");
@@ -44,10 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("邀請連結無效或已過期，請聯絡管理員。");
         });
     } else if (recoveryToken) {
-      // 處理重設密碼流程
       identity.open("recover");
-      identity
-        .recover(recoveryToken)
+      identity.recover(recoveryToken)
         .then(() => {
           console.log("請完成密碼重設");
         })
@@ -56,7 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("密碼重設連結無效或已過期。");
         });
     } else {
-      // 沒 token 不打開登入視窗
       console.log("無邀請或重設密碼 token");
     }
   });
