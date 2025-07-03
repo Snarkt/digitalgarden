@@ -15,9 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // 讀取 URL hash 裡的 token
-  const params = new URLSearchParams(window.location.hash.replace(/^#/, "?"));
-  const token = params.get("recovery_token") || params.get("token");
+  // 解析 URL 參數，包含 invite_token、recovery_token
+  const params = new URLSearchParams(window.location.search);
+  const inviteToken = params.get("invite_token");
+  const recoveryToken = params.get("recovery_token") || params.get("token");
 
   identity.on("init", user => {
     if (user) {
@@ -54,11 +55,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   identity.init();
 
-  // 如果有 token，打開重設密碼視窗並帶入 token
-  if (token) {
+  // 處理 invite_token，完成註冊
+  if (inviteToken) {
+    identity.completeSignup(inviteToken)
+      .then(user => {
+        console.log("完成註冊，使用者：", user);
+        identity.open();  // 完成註冊後打開登入視窗
+      })
+      .catch(err => {
+        console.error("註冊完成失敗", err);
+        alert("邀請連結無效或已過期，請聯絡管理員重新邀請。");
+      });
+  }
+
+  // 處理重設密碼 token
+  if (recoveryToken) {
     identity.open("recover");
     identity.on("init", () => {
-      identity.recover(token);
+      identity.recover(recoveryToken);
     });
   }
 });
