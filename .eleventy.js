@@ -572,4 +572,13 @@ module.exports = function (eleventyConfig) {
     markdownTemplateEngine: false,
     passthroughFileCopy: true,
   };
+  module.exports = function (eleventyConfig) {
+  // 👇 這行是重點！
+  eleventyConfig.addPassthroughCopy("src/site/js");
+  return {
+    dir: {
+      input: "src/site",
+      output: "dist"
+    }
+  };
 };
