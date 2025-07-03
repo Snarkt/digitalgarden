@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((user) => {
           console.log("✅ 邀請註冊完成:", user);
           showUI(user);
+          identity.open("signup"); // 顯示設定密碼畫面
           clearTokenFromURL();
         })
         .catch((err) => {
