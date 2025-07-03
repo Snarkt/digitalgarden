@@ -574,11 +574,12 @@ module.exports = function (eleventyConfig) {
   };
   module.exports = function (eleventyConfig) {
   // 👇 這行是重點！
-  eleventyConfig.addPassthroughCopy("src/site/");
+  eleventyConfig.addPassthroughCopy({ "src/site/auth-embed.js": "auth-embed.js" });
   return {
     dir: {
       input: "src/site",
       output: "dist"
+      data: `_data`,
       }
     };
   };
