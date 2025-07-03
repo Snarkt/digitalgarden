@@ -8,29 +8,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const gate = document.getElementById("auth-gate");
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
-  // 移除 resetBtn 相關
 
   if (!gate || !loginBtn || !logoutBtn) {
     console.error("缺少 #auth-gate 或登入/登出按鈕");
     return;
   }
 
-  // 解析 URL 參數，包含 invite_token
+  // 解析 URL 參數，包含 invite_token、recovery_token（密碼重設用）
   const params = new URLSearchParams(window.location.search);
   const inviteToken = params.get("invite_token");
-  // 移除 recoveryToken 相關
+  const recoveryToken = params.get("recovery_token") || params.get("token");
 
   identity.on("init", user => {
     if (user) {
       gate.style.display = "block";
       loginBtn.style.display = "none";
       logoutBtn.style.display = "inline-block";
-      // no resetBtn
     } else {
       gate.style.display = "none";
       loginBtn.style.display = "inline-block";
       logoutBtn.style.display = "none";
-      // no resetBtn
     }
   });
 
@@ -38,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gate.style.display = "block";
     loginBtn.style.display = "none";
     logoutBtn.style.display = "inline-block";
+    identity.close();
   });
 
   identity.on("logout", () => {
@@ -64,5 +62,15 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // 移除 recoveryToken 處理
+  // 處理重設密碼 token，打開 recover 視窗並呼叫 recover 方法
+  if (recoveryToken) {
+    identity.open("recover");
+    identity.on("init", () => {
+      identity.recover(recoveryToken)
+        .catch(err => {
+          console.error("密碼重設失敗", err);
+          alert("重設密碼連結無效或已過期，請重新申請重設。");
+        });
+    });
+  }
 });
