@@ -8,29 +8,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const gate = document.getElementById("auth-gate");
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
-  const resetBtn = document.getElementById("reset-btn");
+  // 移除 resetBtn 相關
 
-  if (!gate || !loginBtn || !logoutBtn || !resetBtn) {
-    console.error("缺少 #auth-gate 或登入/登出/重設按鈕");
+  if (!gate || !loginBtn || !logoutBtn) {
+    console.error("缺少 #auth-gate 或登入/登出按鈕");
     return;
   }
 
-  // 解析 URL 參數，包含 invite_token、recovery_token
+  // 解析 URL 參數，包含 invite_token
   const params = new URLSearchParams(window.location.search);
   const inviteToken = params.get("invite_token");
-  const recoveryToken = params.get("recovery_token") || params.get("token");
+  // 移除 recoveryToken 相關
 
   identity.on("init", user => {
     if (user) {
       gate.style.display = "block";
       loginBtn.style.display = "none";
       logoutBtn.style.display = "inline-block";
-      resetBtn.style.display = "none";
+      // no resetBtn
     } else {
       gate.style.display = "none";
       loginBtn.style.display = "inline-block";
       logoutBtn.style.display = "none";
-      resetBtn.style.display = "inline-block";
+      // no resetBtn
     }
   });
 
@@ -38,20 +38,16 @@ document.addEventListener("DOMContentLoaded", () => {
     gate.style.display = "block";
     loginBtn.style.display = "none";
     logoutBtn.style.display = "inline-block";
-    resetBtn.style.display = "none";
-    identity.close();
   });
 
   identity.on("logout", () => {
     gate.style.display = "none";
     loginBtn.style.display = "inline-block";
     logoutBtn.style.display = "none";
-    resetBtn.style.display = "inline-block";
   });
 
   loginBtn.addEventListener("click", () => identity.open());
   logoutBtn.addEventListener("click", () => identity.logout());
-  resetBtn.addEventListener("click", () => identity.open("recover"));
 
   identity.init();
 
@@ -68,11 +64,5 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // 處理重設密碼 token
-  if (recoveryToken) {
-    identity.open("recover");
-    identity.on("init", () => {
-      identity.recover(recoveryToken);
-    });
-  }
+  // 移除 recoveryToken 處理
 });
