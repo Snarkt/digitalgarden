@@ -9,13 +9,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
-  // invite token 從 query string 取
+  // 先從 query string 取，沒的話再從 hash 取
   const queryParams = new URLSearchParams(window.location.search);
-  const inviteToken = queryParams.get("invite_token");
-
-  // recovery token 從 hash 取
   const hashParams = new URLSearchParams(window.location.hash.slice(1));
-  const recoveryToken = hashParams.get("recovery_token") || hashParams.get("token");
+
+  const inviteToken =
+    queryParams.get("invite_token") || hashParams.get("invite_token");
+  const recoveryToken =
+    queryParams.get("recovery_token") ||
+    queryParams.get("token") ||
+    hashParams.get("recovery_token") ||
+    hashParams.get("token");
 
   function showUI(user) {
     const isLoggedIn = !!user;
@@ -52,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("密碼重設連結無效或已過期。");
         });
     } else {
-      // 沒有 token 時不打開登入視窗
+      // 沒 token 不打開登入視窗
       console.log("無邀請或重設密碼 token");
     }
   });
