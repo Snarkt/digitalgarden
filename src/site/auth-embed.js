@@ -1,3 +1,5 @@
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
 document.addEventListener("DOMContentLoaded", () => {
   const identity = window.netlifyIdentity;
   if (!identity) {
@@ -9,72 +11,62 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
-  // 先從 query string 讀
-  const queryParams = new URLSearchParams(window.location.search);
-  let inviteToken = queryParams.get("invite_token");
-  let recoveryToken = queryParams.get("recovery_token") || queryParams.get("token");
+  const params = new URLSearchParams(window.location.search); // 用 query string
+  const inviteToken = params.get("invite_token");
+  const recoveryToken = params.get("recovery_token") || params.get("token");
 
-  // 再從 hash 讀（只有在 query 沒讀到時）
-  if (!inviteToken) {
-    const hashParams = new URLSearchParams(window.location.hash.slice(1));
-    inviteToken = hashParams.get("invite_token");
-  }
-  if (!recoveryToken) {
-    const hashParams = new URLSearchParams(window.location.hash.slice(1));
-    recoveryToken = hashParams.get("recovery_token") || hashParams.get("token");
-  }
-
-  identity.on("init", user => {
+  function showUI(user) {
     const isLoggedIn = !!user;
     gate.style.display = isLoggedIn ? "block" : "none";
     loginBtn.style.display = isLoggedIn ? "none" : "inline-block";
     logoutBtn.style.display = isLoggedIn ? "inline-block" : "none";
+  }
+
+  identity.on("init", user => {
+    showUI(user);
+
+    if (inviteToken) {
+      // 完成邀請註冊
+      identity.completeSignup(inviteToken)
+        .then(user => {
+          console.log("邀請註冊完成:", user);
+          identity.open("login"); // 跳登入畫面
+        })
+        .catch(err => {
+          console.error("邀請失敗:", err);
+          alert("邀請連結無效或已過期，請聯絡管理員。");
+          identity.open("login");
+        });
+    } else if (recoveryToken) {
+      // 跳到重設密碼頁面並執行 recover
+      identity.open("recover");
+      identity.recover(recoveryToken)
+        .then(() => {
+          console.log("請完成密碼重設");
+        })
+        .catch(err => {
+          console.error("密碼重設失敗:", err);
+          alert("密碼重設連結無效或已過期，請重新申請。");
+          identity.open("login");
+        });
+    } else {
+      // 沒有 token 就正常顯示登入頁
+      identity.open("login");
+    }
   });
 
   identity.on("login", () => {
-    gate.style.display = "block";
-    loginBtn.style.display = "none";
-    logoutBtn.style.display = "inline-block";
+    showUI(true);
     identity.close();
   });
 
   identity.on("logout", () => {
-    gate.style.display = "none";
-    loginBtn.style.display = "inline-block";
-    logoutBtn.style.display = "none";
+    showUI(false);
   });
 
-  loginBtn.addEventListener("click", () => identity.open());
+  loginBtn.addEventListener("click", () => identity.open("login"));
   logoutBtn.addEventListener("click", () => identity.logout());
 
   identity.init();
-
-  setTimeout(() => {
-    if (inviteToken) {
-      // 只處理邀請流程
-      identity.completeSignup(inviteToken)
-        .then(user => {
-          console.log("邀請成功：", user);
-          identity.open("login"); // 完成邀請後跳登入
-        })
-        .catch(err => {
-          console.error("邀請錯誤", err);
-          alert("邀請失效，請聯繫管理員");
-        });
-    } else if (recoveryToken) {
-      // 只處理密碼重設流程
-      identity.open("recover");
-      identity.recover(recoveryToken)
-        .then(() => {
-          identity.open("login"); // 密碼重設完成跳登入
-        })
-        .catch(err => {
-          console.error("密碼重設錯誤", err);
-          alert("密碼重設連結可能已失效");
-        });
-    } else {
-      // 兩者都沒有，直接開登入視窗
-      identity.open("login");
-    }
-  }, 500);
 });
+</script>
