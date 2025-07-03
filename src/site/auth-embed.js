@@ -9,10 +9,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
-  // query string
+  // invite token 從 query string 取
   const queryParams = new URLSearchParams(window.location.search);
   const inviteToken = queryParams.get("invite_token");
-  const recoveryToken = queryParams.get("recovery_token") || queryParams.get("token");
+
+  // recovery token 從 hash 取
+  const hashParams = new URLSearchParams(window.location.hash.slice(1));
+  const recoveryToken = hashParams.get("recovery_token") || hashParams.get("token");
 
   function showUI(user) {
     const isLoggedIn = !!user;
@@ -25,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showUI(user);
 
     if (inviteToken) {
-      // ✅ 處理邀請註冊流程
+      // 處理邀請註冊流程
       identity
         .completeSignup(inviteToken)
         .then(user => {
@@ -37,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("邀請連結無效或已過期，請聯絡管理員。");
         });
     } else if (recoveryToken) {
-      // ✅ 處理重設密碼流程
+      // 處理重設密碼流程
       identity.open("recover");
       identity
         .recover(recoveryToken)
@@ -49,8 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("密碼重設連結無效或已過期。");
         });
     } else {
-      // ✅ 預設開啟登入頁
-      identity.open("login");
+      // 沒有 token 時不打開登入視窗
+      console.log("無邀請或重設密碼 token");
     }
   });
 
