@@ -574,7 +574,7 @@ module.exports = function (eleventyConfig) {
   };
   module.exports = function (eleventyConfig) {
   // 👇 這行是重點！
-  eleventyConfig.addPassthroughCopy("src/site/js");
+  eleventyConfig.addPassthroughCopy("src/site/");
   return {
     dir: {
       input: "src/site",
