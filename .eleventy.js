@@ -578,7 +578,7 @@ module.exports = function (eleventyConfig) {
   return {
     dir: {
       input: "src/site",
-      output: "dist"
+      output: "dist",
       data: `_data`,
       }
     };
