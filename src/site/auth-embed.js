@@ -9,16 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
-  const hashParams = new URLSearchParams(window.location.hash.slice(1));
+  // query string
   const queryParams = new URLSearchParams(window.location.search);
-
-  const inviteToken =
-    queryParams.get("invite_token") || hashParams.get("invite_token");
-  const recoveryToken =
-    queryParams.get("recovery_token") ||
-    queryParams.get("token") ||
-    hashParams.get("recovery_token") ||
-    hashParams.get("token");
+  const inviteToken = queryParams.get("invite_token");
+  const recoveryToken = queryParams.get("recovery_token") || queryParams.get("token");
 
   function showUI(user) {
     const isLoggedIn = !!user;
@@ -30,8 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
   identity.on("init", user => {
     showUI(user);
 
-    // ✅ 處理邀請
     if (inviteToken) {
+      // ✅ 處理邀請註冊流程
       identity
         .completeSignup(inviteToken)
         .then(user => {
@@ -42,10 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
           console.error("邀請錯誤:", err);
           alert("邀請連結無效或已過期，請聯絡管理員。");
         });
-    }
-
-    // ✅ 處理重設密碼
-    else if (recoveryToken) {
+    } else if (recoveryToken) {
+      // ✅ 處理重設密碼流程
       identity.open("recover");
       identity
         .recover(recoveryToken)
@@ -56,10 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
           console.error("密碼重設錯誤:", err);
           alert("密碼重設連結無效或已過期。");
         });
-    }
-
-    // ✅ 預設跳登入介面
-    else {
+    } else {
+      // ✅ 預設開啟登入頁
       identity.open("login");
     }
   });
