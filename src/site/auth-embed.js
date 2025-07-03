@@ -26,14 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
     gate.style.display = isLoggedIn ? "block" : "none";
     loginBtn.style.display = isLoggedIn ? "none" : "inline-block";
     logoutBtn.style.display = isLoggedIn ? "inline-block" : "none";
-    resetBtn.style.display = isLoggedIn ? "none" : "inline-block";
+    //resetBtn.style.display = isLoggedIn ? "none" : "inline-block";
   });
 
   identity.on("login", () => {
     gate.style.display = "block";
     loginBtn.style.display = "none";
     logoutBtn.style.display = "inline-block";
-    resetBtn.style.display = "none";
+    //resetBtn.style.display = "none";
     identity.close();
   });
 
@@ -41,13 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
     gate.style.display = "none";
     loginBtn.style.display = "inline-block";
     logoutBtn.style.display = "none";
-    resetBtn.style.display = "inline-block";
+    //resetBtn.style.display = "inline-block";
   });
 
   // 按鈕綁定事件
   loginBtn.addEventListener("click", () => identity.open());
   logoutBtn.addEventListener("click", () => identity.logout());
-  resetBtn.addEventListener("click", () => identity.open("recover"));
+  //resetBtn.addEventListener("click", () => identity.open("recover"));
 
   // 初始化身份驗證
   identity.init();
