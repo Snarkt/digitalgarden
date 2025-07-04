@@ -27,6 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.style.display = isLoggedIn ? "inline-block" : "none";
   }
 
+  // 清除網址中的 token（防止 reload 重複觸發）
+  function clearTokenFromURL() {
+    const url = new URL(window.location.href);
+    url.hash = "";
+    url.search = "";
+    history.replaceState({}, document.title, url.toString());
+  }
+
   // 初始化後處理邀請註冊或密碼重設
   identity.on("init", (user) => {
     showUI(user);
@@ -36,7 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((user) => {
           console.log("✅ 邀請註冊完成:", user);
           showUI(user);
-          identity.open("signup"); // 顯示設定密碼畫面
+
+          // 設定密碼流程：需等 user 登入後自動跳出設定密碼視窗（不可主動打開）
+          // Netlify 會自動在 UI 中處理，這裡不需再呼叫 open("signup")
           clearTokenFromURL();
         })
         .catch((err) => {
@@ -49,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
       identity.recover(recoveryToken)
         .then(() => {
           console.log("🔁 請完成密碼重設");
+          // Netlify 會自動跳出設定新密碼的視窗
           clearTokenFromURL();
         })
         .catch((err) => {
@@ -81,12 +92,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 啟動 Identity（放最後）
   identity.init();
-
-  // 清除網址中的 token（防止 reload 重複觸發）
-  function clearTokenFromURL() {
-    const url = new URL(window.location.href);
-    url.hash = "";
-    url.search = "";
-    history.replaceState({}, document.title, url.toString());
-  }
 });
