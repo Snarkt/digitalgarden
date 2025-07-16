@@ -9,9 +9,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 白名單 emails（登入後驗證）
   const allowedEmails = [
-    "admin@example.com",
-    "staff@example.com",
-    "user1@example.com"
+    "sethfu00958@intumit.com",
+    "chabc.9654@gmail.com"
   ];
 
   // DOM 元素
