@@ -5,6 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  const allowedEmails = [
+    "sethfu00958@intumit.com",
+    "chabc.9654@gmail.com"
+  ];
+
   // 取得網址中的 query 與 hash token
   const queryParams = new URLSearchParams(window.location.search);
   const hashParams = new URLSearchParams(window.location.hash.slice(1));
@@ -44,9 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((user) => {
           console.log("✅ 邀請註冊完成:", user);
           showUI(user);
-
-          // 設定密碼流程：需等 user 登入後自動跳出設定密碼視窗（不可主動打開）
-          // Netlify 會自動在 UI 中處理，這裡不需再呼叫 open("signup")
           clearTokenFromURL();
         })
         .catch((err) => {
@@ -59,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
       identity.recover(recoveryToken)
         .then(() => {
           console.log("🔁 請完成密碼重設");
-          // Netlify 會自動跳出設定新密碼的視窗
           clearTokenFromURL();
         })
         .catch((err) => {
@@ -73,11 +74,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 使用者登入
-  identity.on("login", (user) => {
+  // 使用者登入，限制白名單
+  identity.on("login", async (user) => {
     console.log("🔓 使用者登入:", user);
-    showUI(user);
-    identity.close();
+
+    if (allowedEmails.includes(user.email)) {
+      showUI(user);
+      identity.close();
+    } else {
+      alert(`⚠️ 您的帳號 (${user.email}) 不在白名單中，將自動登出`);
+      await identity.logout();
+      showUI(null);
+    }
   });
 
   // 使用者登出
