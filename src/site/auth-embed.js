@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
   // 🧩 初始化 Auth0 客戶端
   const auth0Client = await createAuth0Client({
-    domain: "YOUR_AUTH0_DOMAIN",          // 例：mytenant.auth0.com
-    client_id: "YOUR_AUTH0_CLIENT_ID",
+    domain: "dev-x61qw7gt5164ns5j.auth0.com",          // 例：mytenant.auth0.com
+    client_id: "3wSNNxlskZfjZmls2k97NvYewG53EJj0",
     cacheLocation: "localstorage",
     useRefreshTokens: true
   });
