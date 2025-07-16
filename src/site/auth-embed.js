@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const allowedEmails = [
-    "sethfu00958@intumit.com",
+    "sethfu00958@gmail.com",
     "chabc.9654@gmail.com"
   ];
 
