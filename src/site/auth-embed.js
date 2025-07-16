@@ -8,6 +8,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     redirect_uri: window.location.origin
   });
 
+  // 登入回來後的處理（只會執行一次）
+if (window.location.search.includes("code=") &&
+    window.location.search.includes("state=")) {
+  await auth0Client.handleRedirectCallback();
+  window.history.replaceState({}, document.title, "/");  // 清除 URL 中的參數
+}
+
   // 白名單 emails（登入後驗證）
   const allowedEmails = [
     "sethfu00958@intumit.com",
