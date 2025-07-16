@@ -1,95 +1,66 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const identity = window.netlifyIdentity;
-  if (!identity) {
-    console.error("Netlify Identity 尚未載入");
-    return;
-  }
+document.addEventListener("DOMContentLoaded", async () => {
+  // 🧩 初始化 Auth0 客戶端
+  const auth0Client = await createAuth0Client({
+    domain: "YOUR_AUTH0_DOMAIN",          // 例：mytenant.auth0.com
+    client_id: "YOUR_AUTH0_CLIENT_ID",
+    cacheLocation: "localstorage",
+    useRefreshTokens: true
+  });
 
-  // 取得網址中的 query 與 hash token
-  const queryParams = new URLSearchParams(window.location.search);
-  const hashParams = new URLSearchParams(window.location.hash.slice(1));
+  // 白名單 emails（登入後驗證）
+  const allowedEmails = [
+    "admin@example.com",
+    "staff@example.com",
+    "user1@example.com"
+  ];
 
-  const inviteToken = queryParams.get("invite_token") || hashParams.get("invite_token");
-  const recoveryToken =
-    queryParams.get("recovery_token") || queryParams.get("token") ||
-    hashParams.get("recovery_token") || hashParams.get("token");
-
-  // 頁面中登入區域的元素
-  const gate = document.getElementById("auth-gate");
+  // DOM 元素
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
+  const gate = document.getElementById("auth-gate");
+  const userInfo = document.getElementById("user-info");
 
-  // 顯示/隱藏 UI
-  function showUI(user) {
-    const isLoggedIn = !!user;
+  // 處理 OAuth2 回調
+  const query = window.location.search;
+  if (query.includes("code=") && query.includes("state=")) {
+    await auth0Client.handleRedirectCallback();
+    window.history.replaceState({}, document.title, "/");
+  }
+
+  // 取得登入者
+  const user = await auth0Client.getUser();
+
+  // 顯示/隱藏 UI 方法
+  function showUI(isLoggedIn, email = "") {
     gate.style.display = isLoggedIn ? "block" : "none";
     loginBtn.style.display = isLoggedIn ? "none" : "inline-block";
     logoutBtn.style.display = isLoggedIn ? "inline-block" : "none";
+    userInfo.innerText = isLoggedIn ? `登入帳號：${email}` : "";
   }
 
-  // 清除網址中的 token（防止 reload 重複觸發）
-  function clearTokenFromURL() {
-    const url = new URL(window.location.href);
-    url.hash = "";
-    url.search = "";
-    history.replaceState({}, document.title, url.toString());
-  }
-
-  // 初始化後處理邀請註冊或密碼重設
-  identity.on("init", (user) => {
-    showUI(user);
-
-    if (inviteToken) {
-      identity.completeSignup(inviteToken)
-        .then((user) => {
-          console.log("✅ 邀請註冊完成:", user);
-          showUI(user);
-
-          // 設定密碼流程：需等 user 登入後自動跳出設定密碼視窗（不可主動打開）
-          // Netlify 會自動在 UI 中處理，這裡不需再呼叫 open("signup")
-          clearTokenFromURL();
-        })
-        .catch((err) => {
-          console.error("❌ 邀請錯誤:", err);
-          alert("邀請連結無效或已過期，請聯絡管理員。");
-          clearTokenFromURL();
-        });
-
-    } else if (recoveryToken) {
-      identity.recover(recoveryToken)
-        .then(() => {
-          console.log("🔁 請完成密碼重設");
-          // Netlify 會自動跳出設定新密碼的視窗
-          clearTokenFromURL();
-        })
-        .catch((err) => {
-          console.error("❌ 密碼重設錯誤:", err);
-          alert("密碼重設連結無效或已過期，請重新申請。");
-          clearTokenFromURL();
-        });
-
+  // 白名單檢查
+  if (user) {
+    if (allowedEmails.includes(user.email)) {
+      showUI(true, user.email);
     } else {
-      console.log("ℹ️ 無邀請或密碼重設 token，不自動開啟登入視窗");
+      alert(`⚠️ ${user.email} 無權登入此系統！`);
+      await auth0Client.logout({ returnTo: window.location.origin });
+      showUI(false);
+      return;
     }
+  }
+
+  // Login / Logout 事件綁定
+  loginBtn.addEventListener("click", () => {
+    auth0Client.loginWithRedirect({
+      redirect_uri: window.location.origin
+    });
   });
 
-  // 使用者登入
-  identity.on("login", (user) => {
-    console.log("🔓 使用者登入:", user);
-    showUI(user);
-    identity.close();
+  logoutBtn.addEventListener("click", async () => {
+    await auth0Client.logout({
+      returnTo: window.location.origin
+    });
+    showUI(false);
   });
-
-  // 使用者登出
-  identity.on("logout", () => {
-    console.log("🔒 使用者登出");
-    showUI(null);
-  });
-
-  // 登入/登出按鈕綁定
-  loginBtn.addEventListener("click", () => identity.open("login"));
-  logoutBtn.addEventListener("click", () => identity.logout());
-
-  // 啟動 Identity（放最後）
-  identity.init();
 });
