@@ -26,6 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 顯示/隱藏 UI
   function showUI(user) {
+    const isLoggedIn = !!user;
+    // 只有登出後才顯示 guest 區塊
+    guest.style.display = isLoggedIn ? "none" : "block";
     // 只有登入後才顯示 gated 區塊
     gate.style.display = isLoggedIn ? "block" : "none";
     // 登入/登出按鈕
