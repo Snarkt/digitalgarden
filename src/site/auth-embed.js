@@ -26,8 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 顯示/隱藏 UI
   function showUI(user) {
-    const isLoggedIn = !!user;
-    gate.style.display = isLoggedIn ? "block" : "none";
+    // 只有登入後才顯示 gated 區塊
+    document.getElementById("auth-gate").style.display = isLoggedIn ? "block" : "none";
+    // 只有未登入時才顯示guest
+    document.getElementById("guest").style.display = isLoggedIn ? "none" : "block";
+    // 登入/登出按鈕
     loginBtn.style.display = isLoggedIn ? "none" : "inline-block";
     logoutBtn.style.display = isLoggedIn ? "inline-block" : "none";
   }
