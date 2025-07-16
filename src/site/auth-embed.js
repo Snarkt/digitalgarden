@@ -1,25 +1,28 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  // 🧩 初始化 Auth0 客戶端
-  const auth0Client = await createAuth0Client({
-    domain: "dev-x61qw7gt5164ns5j.us.auth0.com",          // 例：mytenant.auth0.com
-    client_id: "3wSNNxlskZfjZmls2k97NvYewG53EJj0",
-    cacheLocation: "localstorage",
-    useRefreshTokens: true,
-    redirect_uri: window.location.origin
-  });
-
-  // 登入回來後的處理（只會執行一次）
-if (window.location.search.includes("code=") &&
-    window.location.search.includes("state=")) {
-  await auth0Client.handleRedirectCallback();
-  window.history.replaceState({}, document.title, "/");  // 清除 URL 中的參數
-}
-
-  // 白名單 emails（登入後驗證）
   const allowedEmails = [
     "sethfu00958@intumit.com",
     "chabc.9654@gmail.com"
   ];
+
+  // 初始化 Auth0 客戶端
+  const auth0Client = await createAuth0Client({
+    domain: "dev-x61qw7gt5164ns5j.us.auth0.com",
+    client_id: "3wSNNxlskZfjZmls2k97NvYewG53EJj0",
+    redirect_uri: window.location.origin,
+    cacheLocation: "localstorage",
+    useRefreshTokens: true
+  });
+
+  // 處理 redirect 回來的 callback
+  if (window.location.search.includes("code=") &&
+      window.location.search.includes("state=")) {
+    try {
+      await auth0Client.handleRedirectCallback();
+      history.replaceState({}, document.title, "/"); // 清除 URL 中的 code/state
+    } catch (err) {
+      console.error("⚠️ 回傳處理錯誤", err);
+    }
+  }
 
   // DOM 元素
   const loginBtn = document.getElementById("login-btn");
@@ -27,47 +30,31 @@ if (window.location.search.includes("code=") &&
   const gate = document.getElementById("auth-gate");
   const userInfo = document.getElementById("user-info");
 
-  // 處理 OAuth2 回調
-  const query = window.location.search;
-  if (query.includes("code=") && query.includes("state=")) {
-    await auth0Client.handleRedirectCallback();
-    window.history.replaceState({}, document.title, "/");
-  }
+  // 檢查是否已登入
+  const isAuthenticated = await auth0Client.isAuthenticated();
 
-  // 取得登入者
-  const user = await auth0Client.getUser();
+  if (isAuthenticated) {
+    const user = await auth0Client.getUser();
 
-  // 顯示/隱藏 UI 方法
-  function showUI(isLoggedIn, email = "") {
-    gate.style.display = isLoggedIn ? "block" : "none";
-    loginBtn.style.display = isLoggedIn ? "none" : "inline-block";
-    logoutBtn.style.display = isLoggedIn ? "inline-block" : "none";
-    userInfo.innerText = isLoggedIn ? `登入帳號：${email}` : "";
-  }
-
-  // 白名單檢查
-  if (user) {
     if (allowedEmails.includes(user.email)) {
-      showUI(true, user.email);
+      showUI(user);
     } else {
-      alert(`⚠️ ${user.email} 無權登入此系統！`);
+      alert(`⚠️ 帳號 ${user.email} 不在白名單內，將自動登出`);
       await auth0Client.logout({ returnTo: window.location.origin });
-      showUI(false);
-      return;
     }
   }
 
-  // Login / Logout 事件綁定
-  loginBtn.addEventListener("click", () => {
-    auth0Client.loginWithRedirect({
-      redirect_uri: window.location.origin
-    });
-  });
+  // 按鈕綁定事件
+  loginBtn.addEventListener("click", () => auth0Client.loginWithRedirect());
+  logoutBtn.addEventListener("click", () =>
+    auth0Client.logout({ returnTo: window.location.origin })
+  );
 
-  logoutBtn.addEventListener("click", async () => {
-    await auth0Client.logout({
-      returnTo: window.location.origin
-    });
-    showUI(false);
-  });
+  // UI 顯示控制
+  function showUI(user) {
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+    gate.style.display = "block";
+    userInfo.innerText = `👤 登入帳號：${user.email}`;
+  }
 });
