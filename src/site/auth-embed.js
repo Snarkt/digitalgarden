@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     domain: "dev-x61qw7gt5164ns5j.us.auth0.com",          // 例：mytenant.auth0.com
     client_id: "3wSNNxlskZfjZmls2k97NvYewG53EJj0",
     cacheLocation: "localstorage",
-    useRefreshTokens: true
+    useRefreshTokens: true,
+    redirect_uri: window.location.origin
   });
 
   // 白名單 emails（登入後驗證）
