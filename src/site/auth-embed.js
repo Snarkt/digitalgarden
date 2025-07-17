@@ -51,8 +51,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   // 初始化後處理邀請註冊或密碼重設
-  identity.on("init", (user) => {
-    showUI(user);
+  identity.on("init", async (user) => {
+    if (user){
+      if (isEmailAllowed(user.email)){
+        showUI(user);
+      }
+    } else {
+      console.warn(`🚫 使用者 ${user.email} 不在白名單，強制登出`);
+      await identity.logout();
+      showUI(null);
+      return; // 停止後續執行
+    } else {
+      showUI(null);
+    }  
   
     if (inviteToken) {
       identity.completeSignup(inviteToken)
