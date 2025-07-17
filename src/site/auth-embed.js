@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
   identity.on("login", async (user) => {
     console.log("🔓 使用者登入:", user);
   
-    if (isEmailAllowed.includes(user.email)) {
+    if (isEmailAllowed(user.email)) {
       showUI(user);
       identity.close();
     } else {
