@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 頁面中登入區域的元素
   const gate = document.getElementById("auth-gate");
-  const guest = document.getElementById("guest");
+  const guestArea = document.getElementById("guest");
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function showUI(user) {
     const isLoggedIn = !!user;
     // 只有登出後才顯示 guest 區塊
-    guest.style.display = isLoggedIn ? "none" : "block";
+    guestArea.style.display = isLoggedIn ? "none" : "block";
     // 只有登入後才顯示 gated 區塊
     gate.style.display = isLoggedIn ? "block" : "none";
     // 登入/登出按鈕
