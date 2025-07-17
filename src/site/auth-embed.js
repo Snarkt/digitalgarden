@@ -4,11 +4,16 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Netlify Identity 尚未載入");
     return;
   }
-
+  
   const allowedEmails = [
-    "sethfu00958@intumit.com",
     "chabc.9654@gmail.com"
   ];
+  const allowedDomains = ["intumit.com"];
+
+  function isEmailAllowed(email) {
+    const domain = email.split("@")[1];
+    return allowedEmails.includes(email) || allowedDomains.includes(domain);
+  }
 
   // 取得網址中的 query 與 hash token
   const queryParams = new URLSearchParams(window.location.search);
@@ -18,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const recoveryToken =
     queryParams.get("recovery_token") || queryParams.get("token") ||
     hashParams.get("recovery_token") || hashParams.get("token");
-
+  
   // 頁面中登入區域的元素
   const gate = document.getElementById("auth-gate");
   const guestArea = document.getElementById("guest");
@@ -36,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loginBtn.style.display = isLoggedIn ? "none" : "inline-block";
     logoutBtn.style.display = isLoggedIn ? "inline-block" : "none";
   }
-
+  
   // 清除網址中的 token（防止 reload 重複觸發）
   function clearTokenFromURL() {
     const url = new URL(window.location.href);
@@ -44,11 +49,11 @@ document.addEventListener("DOMContentLoaded", () => {
     url.search = "";
     history.replaceState({}, document.title, url.toString());
   }
-
+  
   // 初始化後處理邀請註冊或密碼重設
   identity.on("init", (user) => {
     showUI(user);
-
+  
     if (inviteToken) {
       identity.completeSignup(inviteToken)
         .then((user) => {
@@ -61,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("邀請連結無效或已過期，請聯絡管理員。");
           clearTokenFromURL();
         });
-
+  
     } else if (recoveryToken) {
       identity.recover(recoveryToken)
         .then(() => {
@@ -73,17 +78,17 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("密碼重設連結無效或已過期，請重新申請。");
           clearTokenFromURL();
         });
-
+  
     } else {
       console.log("ℹ️ 無邀請或密碼重設 token，不自動開啟登入視窗");
     }
   });
-
+  
   // 使用者登入，限制白名單
   identity.on("login", async (user) => {
     console.log("🔓 使用者登入:", user);
-
-    if (allowedEmails.includes(user.email)) {
+  
+    if (isEmailAllowed.includes(user.email)) {
       showUI(user);
       identity.close();
     } else {
@@ -92,17 +97,18 @@ document.addEventListener("DOMContentLoaded", () => {
       showUI(null);
     }
   });
-
+  
   // 使用者登出
   identity.on("logout", () => {
     console.log("🔒 使用者登出");
     showUI(null);
   });
-
+  
   // 登入/登出按鈕綁定
   loginBtn.addEventListener("click", () => identity.open("login"));
   logoutBtn.addEventListener("click", () => identity.logout());
-
+  
   // 啟動 Identity（放最後）
   identity.init();
-});
+  });
+  
