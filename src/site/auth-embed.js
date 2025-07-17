@@ -55,15 +55,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (user){
       if (isEmailAllowed(user.email)){
         showUI(user);
-      }
-    } else {
+      } else {
       console.warn(`🚫 使用者 ${user.email} 不在白名單，強制登出`);
       await identity.logout();
       showUI(null);
       return; // 停止後續執行
+     }
     } else {
       showUI(null);
-    }  
+    }
   
     if (inviteToken) {
       identity.completeSignup(inviteToken)
