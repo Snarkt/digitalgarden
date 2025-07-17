@@ -1,25 +1,24 @@
+// tab.js
 document.addEventListener("DOMContentLoaded", () => {
-  const tabButtons = document.querySelectorAll(".tab-btn");
-  const tabContents = document.querySelectorAll(".tab-content");
+  const tabs = document.querySelectorAll("[data-tab-btn]");
+  const panels = document.querySelectorAll("[data-tab-panel]");
 
-  if (!tabButtons.length || !tabContents.length) return;
+  tabs.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = btn.getAttribute("data-tab-btn");
 
-  tabButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const targetId = button.getAttribute("data-tab");
+      // 切換按鈕狀態
+      tabs.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
 
-      // 清除所有 active 樣式
-      tabButtons.forEach((btn) => btn.classList.remove("active"));
-      tabContents.forEach((content) => content.classList.remove("active"));
-
-      // 加上 active 樣式
-      button.classList.add("active");
-      const targetTab = document.getElementById(targetId);
-      if (targetTab) {
-        targetTab.classList.add("active");
-      } else {
-        console.warn(`⚠️ 沒有找到 id 為 ${targetId} 的 tab-content`);
-      }
+      // 切換內容區塊
+      panels.forEach(panel => {
+        if (panel.getAttribute("data-tab-panel") === target) {
+          panel.style.display = "block";
+        } else {
+          panel.style.display = "none";
+        }
+      });
     });
   });
 });
