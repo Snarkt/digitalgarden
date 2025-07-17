@@ -13,13 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return allowedEmails.includes(email) || allowedDomains.includes(domain);
   }
 
-  // DOM 元素
   const gate = document.getElementById("auth-gate");
   const guestArea = document.getElementById("guest");
   const loginBtn = document.getElementById("login-btn");
   const logoutBtn = document.getElementById("logout-btn");
 
-  // 顯示/隱藏 UI 區塊
   function showUI(user) {
     const isLoggedIn = !!user;
     guestArea.style.display = isLoggedIn ? "none" : "block";
@@ -28,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.style.display = isLoggedIn ? "inline-block" : "none";
   }
 
-  // 清除網址中的 token
   function clearTokenFromURL() {
     const url = new URL(window.location.href);
     url.hash = "";
@@ -36,7 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
     history.replaceState({}, document.title, url.toString());
   }
 
-  // 取得網址中的 query 與 hash token
   const queryParams = new URLSearchParams(window.location.search);
   const hashParams = new URLSearchParams(window.location.hash.slice(1));
   const inviteToken = queryParams.get("invite_token") || hashParams.get("invite_token");
@@ -44,7 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
     queryParams.get("recovery_token") || queryParams.get("token") ||
     hashParams.get("recovery_token") || hashParams.get("token");
 
-  // 初始化 Identity
   identity.on("init", async (user) => {
     if (user) {
       if (isEmailAllowed(user.email)) {
@@ -59,7 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
       showUI(null);
     }
 
-    // 處理邀請註冊
     if (inviteToken) {
       identity.completeSignup(inviteToken)
         .then((user) => {
@@ -73,7 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
           clearTokenFromURL();
         });
 
-    // 處理密碼重設
     } else if (recoveryToken) {
       identity.recover(recoveryToken)
         .then(() => {
@@ -91,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 登入事件處理
   identity.on("login", async (user) => {
     console.log("🔓 使用者登入:", user);
     if (isEmailAllowed(user.email)) {
@@ -104,16 +96,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 登出事件處理
   identity.on("logout", () => {
     console.log("🔒 使用者登出");
     showUI(null);
   });
 
-  // 綁定按鈕事件
   loginBtn.addEventListener("click", () => identity.open("login"));
   logoutBtn.addEventListener("click", () => identity.logout());
 
-  // 啟動 Netlify Identity
   identity.init();
+
+  // ✅ 頁簽切換功能
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  const tabContents = document.querySelectorAll(".tab-content");
+
+  tabButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      const target = button.getAttribute("data-tab");
+
+      tabButtons.forEach(btn => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      tabContents.forEach(content => {
+        content.classList.toggle("active", content.id === target);
+      });
+    });
+  });
 });
