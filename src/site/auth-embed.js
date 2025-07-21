@@ -26,6 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
     gate.style.display = isLoggedIn ? "block" : "none";
     loginBtn.style.display = isLoggedIn ? "none" : "inline-block";
     logoutBtn.style.display = isLoggedIn ? "inline-block" : "none";
+
+    // 登入後預設啟動第一個頁簽（如果存在）
+    if (isLoggedIn) {
+      const firstTab = document.querySelector("[data-tab-btn]");
+      if (firstTab) firstTab.click();
+    }
   }
 
   // 清除網址中的 token
@@ -59,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
       showUI(null);
     }
 
-    // 處理邀請註冊
     if (inviteToken) {
       identity.completeSignup(inviteToken)
         .then((user) => {
@@ -73,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
           clearTokenFromURL();
         });
 
-    // 處理密碼重設
     } else if (recoveryToken) {
       identity.recover(recoveryToken)
         .then(() => {
@@ -116,4 +120,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 啟動 Netlify Identity
   identity.init();
+
+  // -------- ✅ 頁簽切換功能 --------
+  const tabButtons = document.querySelectorAll("[data-tab-btn]");
+  const tabSections = document.querySelectorAll("[data-tab-section]");
+
+  tabButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.tabBtn;
+
+      // 切換按鈕樣式（可擴充 .active）
+      tabButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      // 切換顯示內容
+      tabSections.forEach((section) => {
+        section.style.display = section.dataset.tabSection === target ? "block" : "none";
+      });
+    });
+  });
 });
